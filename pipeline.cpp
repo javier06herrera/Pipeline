@@ -1,5 +1,7 @@
 #include <pthread.h>
 #include <iostream>
+#include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -79,6 +81,24 @@ struct master_thread{
 	//Puntero a lista de hilillos
 
 } ;
+
+void readThreadies(int *instructionVector)
+{
+  int vecCounter = 0;
+  for (int i = 0; i < 7; i++) {
+    string filename = "HilillosPruebaFinal/" + to_string(i) + ".txt";
+    ifstream infile(filename);
+    int byte1, byte2, byte3, byte4;
+    while(infile >> byte1 >> byte2 >> byte3 >> byte4)
+    {
+      instructionVector[vecCounter] = byte1;
+      instructionVector[vecCounter+1] = byte2;
+      instructionVector[vecCounter+2] = byte3;
+      instructionVector[vecCounter+3] = byte4;
+      vecCounter+=4;
+    }
+  }
+}
 
 int main(){
 	
