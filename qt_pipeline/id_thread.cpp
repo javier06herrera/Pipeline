@@ -9,6 +9,6 @@ id_thread::id_thread()
 }
 
 void id_thread::run(void *data){
-    pthread_barrier_wait(final_bar);
+    final_bar->Wait();
     cout<<"Hola from id"<<endl;
 }

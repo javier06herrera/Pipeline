@@ -2,13 +2,14 @@
 #define IF_THREAD_H
 #include "thread"
 #include <iostream>
+#include "barrier.h"
 
 class if_thread
 {
 public:
     int quantum_finished=0;
-    pthread_barrier_t* master_bar;
-    pthread_barrier_t* final_bar;
+    Barrier* master_bar;
+    Barrier* final_bar;
     int* intr_che;
     int* block_id_intr_che;
     int* intr_mem;

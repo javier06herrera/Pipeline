@@ -1,6 +1,7 @@
 #ifndef ID_THREAD_H
 #define ID_THREAD_H
 #include <iostream>
+#include "barrier.h"
 #include "thread"
 
 class id_thread
@@ -9,9 +10,9 @@ public:
     int* rgstrs;
     int* rgstrs_state;
     int thread_id=2;
-    pthread_barrier_t* master_bar;
-    pthread_barrier_t* final_bar;
-    pthread_barrier_t* wb_id_coord;
+    Barrier* master_bar;
+    Barrier* final_bar;
+    Barrier* wb_id_coord;
     int* input_box;
     int* output_box;
 

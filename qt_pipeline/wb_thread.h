@@ -2,6 +2,7 @@
 #define WB_THREAD_H
 #include "thread"
 #include <iostream>
+#include "barrier.h"
 
 class wb_thread
 {
@@ -9,9 +10,9 @@ public:
     int* input_box;
     int* rgstrs;
     int* rgstrs_state;
-    pthread_barrier_t* master_bar;
-    pthread_barrier_t* final_bar;
-    pthread_barrier_t* wb_id_coord;
+    Barrier* master_bar;
+    Barrier* final_bar;
+    Barrier* wb_id_coord;
     int thread_id=5;
 
     wb_thread();

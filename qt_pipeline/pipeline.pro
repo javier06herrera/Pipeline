@@ -6,6 +6,7 @@ QMAKE_CXXFLAGS += -std=c++0x -pthread
 LIBS += -pthread
 
 SOURCES += \
+        barrier.cpp \
         ex_thread.cpp \
         id_thread.cpp \
         if_thread.cpp \
@@ -15,6 +16,7 @@ SOURCES += \
         wb_thread.cpp
 
 HEADERS += \
+    barrier.h \
     ex_thread.h \
     id_thread.h \
     if_thread.h \

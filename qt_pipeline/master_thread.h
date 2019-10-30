@@ -6,6 +6,7 @@
 #include "ex_thread.h"
 #include "mem_thread.h"
 #include "wb_thread.h"
+#include "barrier.h"
 #include <iostream>
 
 class master_thread
@@ -23,8 +24,8 @@ public:
     mem_thread* mem_p;
     wb_thread* wb_p;
 
-    pthread_barrier_t* master_bar;
-    pthread_barrier_t* final_bar;
+    Barrier* master_bar;
+    Barrier* final_bar;
 
     //Puntero a lista de hilillos
 
