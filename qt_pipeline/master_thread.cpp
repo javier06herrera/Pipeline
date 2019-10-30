@@ -26,6 +26,8 @@ master_thread::master_thread()
 }
 
 void master_thread::run(void *data){
+    pthread_barrier_wait(final_bar);
     cout<<"Hola from master"<<endl;
 }
+
 

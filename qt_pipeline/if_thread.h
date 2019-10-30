@@ -6,17 +6,17 @@
 class if_thread
 {
 public:
-    int quantum_finished;
+    int quantum_finished=0;
     pthread_barrier_t* master_bar;
     pthread_barrier_t* final_bar;
     int* intr_che;
-    int** block_id_intr_che;
+    int* block_id_intr_che;
     int* intr_mem;
-    int thread_id;
+    int thread_id=1;
     int* input_box;
     int* output_box;
-    int pc;
-    int che_fails;
+    int pc=0;
+    int che_fails=0;
 
     if_thread();
     void run (void* data);

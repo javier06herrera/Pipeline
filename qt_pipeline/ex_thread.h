@@ -6,10 +6,11 @@
 class ex_thread
 {
 public:
-    bool branch_result;
-    int  overwrite_cycles;
+    bool branch_result=false;
+    int  overwrite_cycles=0;
     pthread_barrier_t* master_bar;
     pthread_barrier_t* final_bar;
+    int thread_id=3;
     int* input_box;
     int* output_box;
 
