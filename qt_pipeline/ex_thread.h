@@ -16,6 +16,7 @@ public:
     int* output_box;
 
     ex_thread();
+
     void run (void* data);
 
     void executePhase(); //Ejecuta la etapa evaluando el IR.

@@ -15,21 +15,21 @@ void init_structures(if_thread* if_p, id_thread* id_p, ex_thread* ex_p, mem_thre
     Barrier* final_bar = new Barrier(6);
     Barrier* wb_id_coord = new Barrier(2);
     int intr_mem[640];
-    int data_mem[96];
-    int rgstrs[32];
-    int rgstr_state[32];
+    int data_mem[96]={1};
+    int rgstrs[32]={0};
+    int rgstr_state[32]={0};
 
     //Datos y estructuras if
     if_p->master_bar=master_bar;
     if_p->final_bar=final_bar;
-    int intr_che[64];
+    int intr_che[64]={0};
     if_p->intr_che=intr_che;
     //Guarda los identificadores de bloque presentes en la cache de instrucciones
-    int block_id_intr_che[4];
+    int block_id_intr_che[4]={-1};
     if_p->block_id_intr_che=block_id_intr_che;
     if_p->intr_mem=intr_mem;
-    int if_input_box[2];
-    int if_output_box[2];
+    int if_input_box[2]={0};
+    int if_output_box[5]={0};
     if_p->input_box=if_input_box;
     if_p->output_box=if_output_box;
 
@@ -39,35 +39,35 @@ void init_structures(if_thread* if_p, id_thread* id_p, ex_thread* ex_p, mem_thre
     id_p->master_bar=master_bar;
     id_p->final_bar=final_bar;
     id_p->wb_id_coord=wb_id_coord;
-    int id_input_box[3];
-    int id_output_box[6];
+    int id_input_box[6]={0};
+    int id_output_box[9]={0};
     id_p->input_box=id_input_box;
     id_p->output_box=id_output_box;
 
     //Datos y estructuras ex
     ex_p->master_bar=master_bar;
     ex_p->final_bar=final_bar;
-    int ex_input_box[6];
-    int ex_output_box[4];
+    int ex_input_box[9]={0};
+    int ex_output_box[7]={0};
     ex_p->input_box=ex_input_box;
     ex_p->output_box=ex_output_box;
 
     //Datos y estructuras mem
-    int data_cache[16];
+    int data_cache[16]={0};
     mem_p->data_che=data_cache;
     mem_p->data_mem=data_mem;
     //Guarda los identificadores de bloque presentes en la cache de datos
-    int block_id_dta_che[4];
+    int block_id_dta_che[4]={-1};
     mem_p->block_id_dta_che=block_id_dta_che;
-    int mem_input_box[3];
-    int mem_output_box[3];
+    int mem_input_box[6]={0};
+    int mem_output_box[6]={0};
     mem_p->input_box=mem_input_box;
     mem_p->output_box=mem_output_box;
     mem_p->master_bar=master_bar;
     mem_p->final_bar=final_bar;
 
     //Datos y estructuras wb
-    int wb_input_box[3];
+    int wb_input_box[6]={0};
     wb_p->input_box=wb_input_box;
     wb_p->rgstrs=rgstrs;
     wb_p->rgstrs_state=rgstr_state;
