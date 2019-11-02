@@ -60,7 +60,7 @@ void init_structures(if_thread* if_p, id_thread* id_p, ex_thread* ex_p, mem_thre
     int block_id_dta_che[4]={-1};
     mem_p->block_id_dta_che=block_id_dta_che;
     int mem_input_box[6]={0};
-    int mem_output_box[6]={0};
+    int mem_output_box[7]={0};
     mem_p->input_box=mem_input_box;
     mem_p->output_box=mem_output_box;
     mem_p->master_bar=master_bar;

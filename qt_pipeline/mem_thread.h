@@ -14,6 +14,7 @@ class mem_thread
 public:
     bool in_cache_fail_store = false; ///<Bandera de aviso que ocurrió un fallo de caché por escritura(12 ciclos)
     bool in_cache_fail_load = false; ///<Bandera de aviso que ocurrió un fallo de caché por lectura(48 ciclos)
+    int cache_fail_cycles = 0;
     int* data_che; ///<Puntero al vector de la memoria caché
     int* data_mem; ///<Puntero al vector de memoria compartida de datos
     int* block_id_dta_che; ///<Puntero al vector de identificadores de los bloques actualmente cargados en caché
@@ -94,6 +95,11 @@ public:
      * @brief passInstrToWB: Rutina que pasa el IR a WB
      */
     void passInstrToWB();
+
+    /**
+     * @brief passNOPsToWB: Rutina que pasa instrucciones NOPs que no cuentan para el quantum a WB cuando MEM está en fallo de caché
+     */
+    void passNOPsToWB();
 
     /**
      * @brief lw: Rutina que ejecuta la instrucción lw. Revisa si el bloque está cargado en la caché,

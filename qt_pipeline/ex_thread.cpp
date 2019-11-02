@@ -102,7 +102,13 @@ void ex_thread::sw(){
 }
 
 void ex_thread::sc(){
-    output_box[5] = input_box[4] + input_box[6];
+    int address = input_box[4]+input_box[6];
+    if(address==input_box[9]){
+        output_box[5] = address;
+    }else{
+        output_box[5] = -1;
+    }
+
     output_box[6] = input_box[5];
 }
 
