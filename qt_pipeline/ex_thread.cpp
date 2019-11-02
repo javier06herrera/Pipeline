@@ -68,55 +68,45 @@ void ex_thread::passInstrToMem(){
     }
 }
 
-void ex_thread::addi(){
-    //Suma Imm y registro A y lo pasa a ALU Out
+void ex_thread::addi(){   
     output_box[5] = input_box[4] + input_box[6];
 }
 
 void ex_thread::add(){
-    //Suma registro A y B y lo pasa a ALU Out
     output_box[5] = input_box[4] + input_box[5];
 }
 
 void ex_thread::sub(){
-    //Resta registro A y B y lo pasa a ALU Out
     output_box[5] = input_box[4] - input_box[5];
 }
 
 void ex_thread::mul(){
-    //Multiplica registro A y B y lo pasa a ALU Out
     output_box[5] = input_box[4] * input_box[5];
 }
 
 void ex_thread::div(){
-    //Divide registro A y B y lo pasa a ALU Out
     output_box[5] = input_box[4] / input_box[5];
 }
 
 void ex_thread::lw(){
-    //Calcula la direccion sumando el registro A e Imm
     output_box[5] = input_box[4] + input_box[6];
 }
 
 void ex_thread::lr(){
-    //Pasa la direccion en A a ALU Out
     output_box[5] = input_box[4];
 }
 
 void ex_thread::sw(){
-    //Calcula la direccion sumando el registro A e Imm y pasa el registro B a MEM
     output_box[5] = input_box[4] + input_box[6];
     output_box[6] = input_box[5];
 }
 
 void ex_thread::sc(){
-    //Calcula la direccion sumando el registro A e Imm y pasa el registro B a MEM
     output_box[5] = input_box[4] + input_box[6];
     output_box[6] = input_box[5];
 }
 
 void ex_thread::beq(){
-    //Compara si los registro A y B son iguales, pasa el PC branch a IF
     if(input_box[4] == input_box[5]){
         branch_result = true;
     }else{
@@ -127,7 +117,6 @@ void ex_thread::beq(){
 }
 
 void ex_thread::bne(){
-    //Compara si los registro A y B son distintos, pasa el PC branch a IF
     if(input_box[4] != input_box[5]){
         branch_result = true;
     }else{
@@ -138,13 +127,11 @@ void ex_thread::bne(){
 }
 
 void ex_thread::jal(){
-    //Pasa el PC branch a IF
     output_box[4] = input_box[7];
     branch_result = true;
 }
 
 void ex_thread::jalr(){
-    //Pasa el PC branch a IF y el valor del registro A a ALU Out
     output_box[5] = input_box[4];
     output_box[4] = input_box[7];
     branch_result = true;
