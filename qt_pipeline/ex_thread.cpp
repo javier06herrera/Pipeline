@@ -15,56 +15,57 @@ void ex_thread::run(void *data){
 void ex_thread::executePhase(){
     //Condicion con Estado MEM
     switch (input_box[0]) { //Codigo de operacion
-        case 19:
+        case 19: //Addi
             addi();
             break;
-        case 71:
+        case 71: //Add
             add();
             break;
-        case 83:
+        case 83: //Sub
             sub();
             break;
-        case 72:
+        case 72: //Mul
             mul();
             break;
-        case 56:
+        case 56: //Div
             div();
             break;
-        case 5:
+        case 5:  //Lw
             lw();
             break;
-        case 37:
+        case 37: //Sw
             sw();
             break;
-        case 99:
+        case 99: //Beq
             beq();
             break;
-        case 100:
+        case 100: //Bne
             bne();
             break;
-        case 51:
+        case 51: //Lr
             lr();
             break;
-        case 52:
+        case 52: //Sc
             sc();
             break;
-        case 111:
+        case 111: //Jal
             jal();
             break;
-        case 103:
+        case 103: //Jalr
             jalr();
             break;
-        default:
-            //FIN o NOP
+        default: //FIN o NOP
             cout << "No operation executed in EX" << endl;
     }
 
-    passInstrToMem(input_box[0]);
+    passInstrToMem();
 
 }
 
-void ex_thread::passInstrToMem(int instruction){
-    output_box[0] = instruction;
+void ex_thread::passInstrToMem(){
+    for(int i = 0 ; i < 4 ; i++){
+        output_box[i] = input_box[i];
+    }
 }
 
 void ex_thread::addi(){

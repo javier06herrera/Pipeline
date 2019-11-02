@@ -21,7 +21,7 @@ public:
 
     void executePhase(); //Ejecuta la etapa evaluando el IR.
 
-    void passInstrToMem(int instruction); //Pasa la instruccion del parametro al buzon IR de MEM.
+    void passInstrToMem(); //Pasa la instruccion al buzon IR de MEM.
 
     void addi();
     void add();

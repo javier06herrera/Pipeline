@@ -7,6 +7,8 @@
 class mem_thread
 {
 public:
+    bool in_cache_fail_store = false;
+    bool in_cache_fail_load = false;
     int* data_che;
     int* data_mem;
     int* block_id_dta_che;
@@ -21,6 +23,23 @@ public:
     int thread_id=4;
     mem_thread();
     void run (void* data);
+
+    int memAddressToBlock(int address);
+    int memAddressToWord(int address);
+    int getIndexInDataMemory(int address);
+    int getIndexInDataCache(int address);
+    bool isBlockInDataCache(int address);
+    void loadBlockToCache(int address);
+
+    void executePhase(); //Ejecuta la etapa evaluando el IR.
+
+    void passALUOutToWB();
+    void passInstrToWB();
+
+    void lw();
+    void sw();
+    void lr();
+    void sc();
 };
 
 #endif // MEM_THREAD_H
