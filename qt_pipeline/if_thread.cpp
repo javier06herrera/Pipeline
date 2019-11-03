@@ -18,7 +18,8 @@ void if_thread::instr_fetch(){
     int num_blk = addr_to_block();
     int num_word = addr_to_word();
     if (exists(num_blk)) {
-        extract_from_che(num_blk, num_word):
+        extract_from_che(num_blk, num_word);
+        output_box[0]=pc;
         pc = pc + 4;
         return 1;
     }
