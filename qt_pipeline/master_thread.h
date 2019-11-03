@@ -16,11 +16,12 @@
 class master_thread
 {
 public:
-    int quantum_finished=0;
-    int quatum_counter=0;
-    int itrn_che_fails=0;
-    int dta_che_fails=0;
-    int thread_id=0;
+    int quantum_finished=0;///<Bandera que indica si el quantum terminó
+    int quantum_value=0;///<Valor de quantum que ingresa el usuario
+    int itrn_che_fails=0;///<Contador de fallos de cache de instrucciones
+    int dta_che_fails=0;///<Contador de fallos de cache de datos
+    int overwrite_cycles=0; ///<Contador de cuantas instrucciones se van a sobreescribir en caso de branch tomado
+    int thread_id=0;///<Identificador del thread
 
     if_thread* if_p; ///<Puntero a objeto en el que corre if
     id_thread* id_p;///<Puntero a objeto en el que corre id
@@ -103,10 +104,18 @@ public:
     void deliver_wb();
 
     /**
-     * @brief bring_op_cod Actualiza los cuatro digitos del codigo de operacion
+     * @brief update_op_cod Actualiza los cuatro digitos del codigo de operacion
+     * @param source_mail_box Puntero a arreglo de donde se toma la instruccion
+     * @param dest_mail_box Puntero a arreglo en donde se escribe la instruccion
      */
     void update_op_cod(int* source_mail_box, int *dest_mail_box);
 
+    /**
+     * @brief pass_NOP Pasa NOPs a una de las etapas del pipeline
+     * @param accountableNOP Esta bandera indica si el NOP le resta o no al quantum (1-si/0-no)
+     * @param dest_mail_box Puntero a arreglo en donde se escribe la instruccion
+     */
+    void pass_NOP(int accountableNOP,int *dest_mail_box);
 
 
 

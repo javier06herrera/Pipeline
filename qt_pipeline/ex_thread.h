@@ -8,7 +8,6 @@ class ex_thread
 {
 public:
     bool branch_result = false; ///<Bandera que indica si un branch fue tomado o no
-    int  overwrite_cycles=0; ///<Contador de cuantas instrucciones se van a sobreescribir en caso de branch tomado
     Barrier* master_bar; ///<Barrera con la cual se le da tiempo a EX de ejecutarse
     Barrier* final_bar; ///<Barrera que permite al master realizar entrega de correos
     int thread_id=3; ///<Identificador del thread.

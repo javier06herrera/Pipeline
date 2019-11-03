@@ -16,8 +16,8 @@ void init_structures(if_thread* if_p, id_thread* id_p, ex_thread* ex_p, mem_thre
     Barrier* wb_id_coord = new Barrier(2);
     int intr_mem[640];
     int data_mem[96]={1};
-    int rgstrs[32]={0};
-    int rgstr_state[32]={0};
+    int rgstrs[33]={0};
+    int rgstr_state[33]={0};
 
     //Datos y estructuras if
     if_p->master_bar=master_bar;
@@ -47,7 +47,7 @@ void init_structures(if_thread* if_p, id_thread* id_p, ex_thread* ex_p, mem_thre
     //Datos y estructuras ex
     ex_p->master_bar=master_bar;
     ex_p->final_bar=final_bar;
-    int ex_input_box[9]={0};
+    int ex_input_box[10]={0};
     int ex_output_box[7]={0};
     ex_p->input_box=ex_input_box;
     ex_p->output_box=ex_output_box;
