@@ -30,7 +30,7 @@ void if_thread::instr_fetch(){
 
 void if_thread::activate_fail(){
     fail_cycle = 48;
-    output_box[1]=2;
+    output_box[1]=1;
     output_box[2]=0;
     output_box[3]=0;
     output_box[4]=0
@@ -39,7 +39,7 @@ void if_thread::activate_fail(){
 
 void if_thread::work_fail(){
     fail_cycle--;
-    output_box[1]=2;
+    output_box[1]=1;
     output_box[2]=0;
     output_box[3]=0;
     output_box[4]=0;
