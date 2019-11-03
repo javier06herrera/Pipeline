@@ -10,10 +10,7 @@ void if_thread::run(void* data){
     master_bar->Wait();
 }
 
-void if_thread::instr_fetch(){
-    int num_blk;
-    int num_word;
-
+int if_thread::instr_fetch(){
     int branch = branch_cmp();
 
     if (fail_cycle && !branch){
@@ -30,7 +27,7 @@ void if_thread::instr_fetch(){
         return 1;
     }
     activate_fail();
-    resolve_fault();
+    resolve_fault(num_blk,num_word);
     return 0;
 }
 
@@ -47,7 +44,7 @@ void if_thread::activate_fail(){
     output_box[1]=1;
     output_box[2]=0;
     output_box[3]=0;
-    output_box[4]=0
+    output_box[4]=0;
     che_fails++;
 }
 
