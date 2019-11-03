@@ -21,7 +21,7 @@ public:
     int* block_id_intr_che; ///< Identifica los bloques cargados en la caché.
     int* intr_mem; ///< Memoria de instrucciones.
     int thread_id=1; ///< Número identificador de hilo.
-    int* input_box; ///< Buzon utilizado para recibir datos.
+    int* input_box; ///< Buzon utilizado para recibir pc_branch en el [0] y el nuevo pc en el [1].
     int* output_box; ///< Buzón usado para enviar datos a ID.
     int pc=0; ///< Guarda el contador de la instrucción a extraer.
     int che_fails=0; ///< Contabiliza la cantidad de fallos de caché que se han generado.
@@ -44,6 +44,12 @@ public:
     siguiente instrucción.
     */
     void activate_fail();
+    /**
+    \brief branch_cmp: comprueba si se debe cambiar el valor del pc por el calculado
+    y comprobado en ID y EX respectivamente.
+    \returns Retorna 0 en caso de que no se tenga que saltar y 1 en caso de que sí.
+    */
+    int branch_cmp();
     /**
     \brief work_fail: Concluye un ciclo en la resolución del fallo de caché y
     envía un NOP de fallo de caché a la siguiente instrucción.
@@ -78,13 +84,13 @@ public:
     bloque en memoria de instrucciones.
     \returns Retorna el número de bloque de memoria de instrucciones.
     */
-    int addr_to_block();
+    int addr_to_block(int p_c);
     /**
     \brief addr_to_word: Toma la dirección dada en el pc y la convierte al número de
     palabra en el bloque de instrucciones
     \returns Retorna el número de palabra en el bloque de instrucciones.
     */
-    int addr_to_word();
+    int addr_to_word(int p_c);
 
 };
 

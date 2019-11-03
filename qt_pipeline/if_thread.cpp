@@ -11,12 +11,18 @@ void if_thread::run(void* data){
 }
 
 void if_thread::instr_fetch(){
-    if (fail_cycle){
+    int num_blk;
+    int num_word;
+
+    int branch = branch_cmp();
+
+    if (fail_cycle && !branch){
         work_fail();
         return 0;
     }
-    int num_blk = addr_to_block();
-    int num_word = addr_to_word();
+
+    int num_blk = addr_to_block(pc);
+    int num_word = addr_to_word(pc);
     if (exists(num_blk)) {
         extract_from_che(num_blk, num_word);
         output_box[0]=pc;
@@ -25,6 +31,14 @@ void if_thread::instr_fetch(){
     }
     activate_fail();
     resolve_fault();
+    return 0;
+}
+
+int if_thread::branch_cmp(){
+    if (input_box[0]!=-1) {
+        pc = input_box[1];
+        return 1;
+    }
     return 0;
 }
 
@@ -80,10 +94,10 @@ int if_thread::exists(int num_blk){
     return 0;
 }
 
-int if_thread::addr_to_block(){
-    return pc/16;
+int if_thread::addr_to_block(int p_c){
+    return p_c/16;
 }
 
-int if_thread::addr_to_word(){
-    return (pc%16)/4;
+int if_thread::addr_to_word(int p_c){
+    return (p_c%16)/4;
 }
