@@ -75,7 +75,11 @@ void master_thread::deliver_if()
 
 void master_thread::deliver_id()
 {
-
+    id_p->input_box[4]=ex_p->output_box[7];//Siempre hay que pasarle el estado de ex para verificar si puede avanzar
+    if(ex_p->output_box[7])// Se comprueba el estado de ex para saber si escribir buzones o no
+        return;
+    update_op_cod(if_p->output_box,id_p->input_box);
+    id_p->input_box[5]=if_p->output_box[4];//Trae el valor del pc para calcular el PC branch
 }
 
 void master_thread::deliver_ex()
