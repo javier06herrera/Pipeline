@@ -62,6 +62,8 @@ void mem_thread::executePhase(){
             }
         }else{
             if(cache_fail_cycles < 12){
+                cache_fail_cycles++;
+            }else{
                 in_cache_fail_store = false;
                 cache_fail_cycles = 0;
                 output_box[6] = 0;
