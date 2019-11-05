@@ -13,7 +13,12 @@ void ex_thread::run(void *data){
 }
 
 void ex_thread::executePhase(){
-    //Condicion con Estado MEM
+    if(input_box[8]){
+        output_box[7] = 1;
+        return ;
+    }
+
+    output_box[7] = 0;
     switch (input_box[0]) { //Codigo de operacion
         case 19: //Addi
             addi();
