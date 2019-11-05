@@ -4,17 +4,21 @@
 #include "barrier.h"
 #include "thread"
 
+/**
+\brief The id_thread class se encarga de decodificar la nueva instrucción,
+y interpretarla según corresponda. También debe preveer conflictos de datos.
+ */
 class id_thread
 {
 public:
-    int* rgstrs;
-    int* rgstrs_state;
-    int thread_id=2;
-    Barrier* master_bar;
-    Barrier* final_bar;
-    Barrier* wb_id_coord;
-    int* input_box;
-    int* output_box;
+    int* rgstrs; ///< Son los registros principales del procesador
+    int* rgstrs_state; ///< señala los registros que se están usando como destino.
+    int thread_id=2; ///< Identificador de hilo.
+    Barrier* master_bar; ///< Barrera con el hilo master
+    Barrier* final_bar; ///< Barrera de final de ciclo
+    Barrier* wb_id_coord; ///< barrera de medio ciclo para funcionamiento de wb
+    int* input_box; ///< buzón de entrada
+    int* output_box; ///< buzón de salida
 
     id_thread();
     /**
