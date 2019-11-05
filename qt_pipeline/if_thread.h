@@ -25,6 +25,7 @@ public:
     int* output_box; ///< Buzón usado para enviar datos a ID.
     int pc=0; ///< Guarda el contador de la instrucción a extraer.
     int che_fails=0; ///< Contabiliza la cantidad de fallos de caché que se han generado.
+    int mem_request = 0; ///< Contabiliza las solicitudes de acceso a memoria.
 
     if_thread();
     /**
@@ -38,6 +39,10 @@ public:
     \returns Retorna 1 si no hubo fallo, de lo contrario 0.
     */
     int instr_fetch();
+    /**
+    \brief send_NOP: Se envía al output_box un nop de fallo de caché.
+    */
+    void send_NOP();
     /**
     \brief activate_fail: Activa el fallo de caché por la cantidad de ciclos en los
     cuales va a durar. También envía un NOP de fallo de caché a la

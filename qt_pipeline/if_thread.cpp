@@ -18,11 +18,22 @@ int if_thread::instr_fetch(){
         return 0;
     }
 
+    if (input_box[0]) {
+        return 0;
+    }
+
+    fail_cycle = 0;
+
+    if (quantum_finished) {
+        send_NOP();
+        return 0;
+    }
+
     int num_blk = addr_to_block(pc);
     int num_word = addr_to_word(pc);
     if (exists(num_blk)) {
         extract_from_che(num_blk, num_word);
-        output_box[0]=pc;
+        output_box[4]=pc;
         pc = pc + 4;
         return 1;
     }
@@ -32,7 +43,7 @@ int if_thread::instr_fetch(){
 }
 
 int if_thread::branch_cmp(){
-    if (input_box[0]!=-1) {
+    if (input_box[1]!=-1) {
         pc = input_box[1];
         return 1;
     }
@@ -41,19 +52,21 @@ int if_thread::branch_cmp(){
 
 void if_thread::activate_fail(){
     fail_cycle = 48;
-    output_box[1]=1;
+    send_NOP();
+    che_fails++;
+}
+
+void if_thread::send_NOP(){
+    output_box[0]=1;
+    output_box[1]=0;
     output_box[2]=0;
     output_box[3]=0;
-    output_box[4]=0;
-    che_fails++;
+    return;
 }
 
 void if_thread::work_fail(){
     fail_cycle--;
-    output_box[1]=1;
-    output_box[2]=0;
-    output_box[3]=0;
-    output_box[4]=0;
+    send_NOP();
 }
 
 void if_thread::extract_from_che(int num_blk, int num_word){
@@ -61,7 +74,7 @@ void if_thread::extract_from_che(int num_blk, int num_word){
     num_blk_che = num_blk*16;
     num_blk_che =num_blk_che + num_word*4;
     for (int i = num_blk_che; i < num_blk_che+4; i++) {
-        output_box[1+i-num_blk_che] = intr_che[i];
+        output_box[i-num_blk_che] = intr_che[i];
     }
 }
 
@@ -80,6 +93,7 @@ void if_thread::resolve_fault(int num_blk, int num_word){
         num_blk_che ++;
         num_blk_mem ++;
     }
+    mem_request++;
 }
 
 int if_thread::exists(int num_blk){
