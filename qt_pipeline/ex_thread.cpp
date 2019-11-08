@@ -133,7 +133,6 @@ void ex_thread::bne(){
     }else{
         branch_result = false;
     }
-
     output_box[4] = input_box[7];
 }
 

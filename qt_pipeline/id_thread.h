@@ -5,14 +5,14 @@
 #include "thread"
 
 /**
-\brief The id_thread class se encarga de decodificar la nueva instrucción,
+\brief La clase id_thread se encarga de decodificar la nueva instrucción,
 y interpretarla según corresponda. También debe preveer conflictos de datos.
  */
 class id_thread
 {
 public:
     int* rgstrs; ///< Son los registros principales del procesador
-    int* rgstrs_state; ///< señala los registros que se están usando como destino.
+    int* rgstrs_state; ///< Señala los registros que se están usando como destino.
     int thread_id=2; ///< Identificador de hilo.
     Barrier* master_bar; ///< Barrera con el hilo master
     Barrier* final_bar; ///< Barrera de final de ciclo
@@ -123,9 +123,9 @@ public:
     de conflicto de datos y enciende la bandera de conflicto de datos), reserva el
     registro destino y callcula el PC branch:
 
-    input_box[1] = registro destino.
-    output_box[5]<--------rgstrs[ input_box[2] ] = registro A.
-    output_box[8]<--------rgstrs[input_box[2]] + input_box[3] = PC branch.
+    input_box[1] : registro destino.
+    output_box[5]<--------inputbox[5] : registro A/PC normal.
+    output_box[8]<--------rgstrs[input_box[2]] + input_box[3] : PC branch.
     */
     void jalr();
     /**

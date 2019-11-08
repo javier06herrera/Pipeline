@@ -108,18 +108,24 @@ void wb_thread::lr(){
     rgstrs[32]=input_box[4];
     //Guarda en el registro destino el LMD
     rgstrs[input_box[1]]=input_box[5];
+    //Libera el registro destino
     rgstrs_state[input_box[1]]--;
+    //Libera RL ya que fue reservado en ID
+    rgstrs_state[32]--;
     wb_id_coord->Wait();
 }
 
 void wb_thread::sw(){
     //No hace nada en wb
+    wb_id_coord->Wait();
 }
 
 void wb_thread::sc(){
-    //Guarda en el registro destino lo que leyo en mem
-    rgstrs[input_box[2]]=input_box[4];
-    rgstrs_state[input_box[1]]--;
+    //Guarda en el registro destino lo que leyo en mem solo si es 0 ya que sei no
+    //significa que se debe dejar igual
+    if(input_box[4]==0)
+        rgstrs[input_box[2]]=input_box[4];
+    rgstrs_state[input_box[2]]--;
     wb_id_coord->Wait();
 
 }
@@ -133,11 +139,13 @@ void wb_thread::bne(){
 }
 
 void wb_thread::jal(){
+    rgstrs_state[input_box[1]]--;
     wb_id_coord->Wait();
 }
 
 void wb_thread::jalr(){
     rgstrs[input_box[1]]=input_box[4];
+    rgstrs_state[input_box[1]]--;
     wb_id_coord->Wait();
 }
 

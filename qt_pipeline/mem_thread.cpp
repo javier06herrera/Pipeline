@@ -113,9 +113,18 @@ void mem_thread::executePhase(){
                 break;
             default: //FIN o NOP
                 cout << "No operation executed in MEM" << endl;
+                passNOPsToWB();
         }
-
-        passInstrToWB();
+        //Se deben pasar los NOP en el primer ciclo en el que se identifica el fallo
+        //Para que la instruccion no avance
+        if(in_cache_fail_load||in_cache_fail_load)
+        {
+            passNOPsToWB();
+        }
+        else
+        {
+            passInstrToWB();
+        }
     }
 
 

@@ -67,133 +67,166 @@ int id_thread::instr_decode(){
 }
 
 void id_thread::jalr(){
+    wb_id_coord->Wait();
     if (check_status(input_box[2])) {
         send_NOP();
         output_box[4]=1;
         return;
     }
     use_rgstr(input_box[1]);
-    output_box[5] = rgstrs[input_box[2]];
+    //A <- PC normal
+    output_box[5] = input_box[5];
+    //Pc_branch <- Xn+Pc Normal
     output_box[8] = rgstrs[input_box[2]] + input_box[3];
+    //Estado de ID bien
     output_box[4]=0;
     load_instr();
 }
 
 void id_thread::jal(){
-    if (check_status(input_box[1])) {
+    wb_id_coord->Wait();
+    if (check_status(input_box[2])) {
         send_NOP();
+        //Estado de ID bien
         output_box[4]=1;
         return;
     }
-    rgstrs[input_box[1]] = rgstrs[input_box[5]];
+    //Reserva operando 1
+    use_rgstr(input_box[1]);
+    //A <- PC normal
+    output_box[5] = input_box[5];
+    //Pc_branch <- Xn+Pc Normal
     output_box[8] = input_box[5] + input_box[3];
+    //Estado de ID bien
     output_box[4]=0;
     load_instr();
 }
 
 void id_thread::lr(){
+    wb_id_coord->Wait();
     if (check_status(input_box[2])) {
         send_NOP();
         output_box[4]=1;
         return;
     }
+    //Reserva operando 1
     use_rgstr(input_box[1]);
+    //Reserva RL
+    use_rgstr(32);
+    //A <- Xn
     output_box[5] = rgstrs[input_box[2]];
+    //Estado de ID bien
     output_box[4]=0;
     load_instr();
 }
 
 void id_thread::sc(){
-    if (check_status(input_box[1])) {
+    wb_id_coord->Wait();
+    if (check_status(input_box[1]) || check_status(input_box[2]) || check_status(32)) {
         send_NOP();
         output_box[4]=1;
         return;
     }
+    //Reserva registro destino de la operacion
     use_rgstr(input_box[2]);
+    //A <- Xn : Guarda en A la direccion de memoria a escribir
     output_box[5] = rgstrs[input_box[1]];
+    //B <- Xn : Guarda en B el dato a guardar en direccion de memoria
     output_box[6] = rgstrs[input_box[2]];
+    //Imm<-Imm : Se le pasa un inmediato a sumar a la direccion
     output_box[7] = input_box[3];
-    output_box[4] = 0;
+    //Se pasa el valor del RL
     output_box[9] = rgstrs[32];
+    //Estado de ID bien
+    output_box[4] = 0;
+
     load_instr();
 }
 
 void id_thread::addi(){
+    wb_id_coord->Wait();
     if (check_status(input_box[2])) {
         send_NOP();
         output_box[4]=1;
         return;
     }
     use_rgstr(input_box[1]);
+    //A <- Xn
     output_box[5] = rgstrs[input_box[2]];
+    //Imm <- Imm
     output_box[7] = input_box[3];
+    //Estado de ID bien
     output_box[4]=0;
     load_instr();
 }
 
 void id_thread::branch(){
-    if (check_status(input_box[1])) {
+    wb_id_coord->Wait();
+    if (check_status(input_box[1]) || check_status(input_box[2])) {
         send_NOP();
         output_box[4]=1;
         return;
     }
-    if (check_status(input_box[2])) {
-        send_NOP();
-        output_box[4]=1;
-        return;
-    }
+    //A <- Xn
     output_box[5] = rgstrs[input_box[1]];
+    //B <- Xn
     output_box[6] = rgstrs[input_box[2]];
+    //Pc Branch <- Pc Normal + Imm*4
     output_box[8] = input_box[5] + input_box[3]*4;
+    //Estado de ID bien
     output_box[4]=0;
     load_instr();
 }
 
 void id_thread::op_arithm(){
-    if (check_status(input_box[2])) {
+    wb_id_coord->Wait();
+    if (check_status(input_box[2])||check_status(input_box[3])) {
         send_NOP();
         output_box[4]=1;
         return;
     }
-    if (check_status(input_box[3])) {
-        send_NOP();
-        output_box[4]=1;
-        return;
-    }
+    //Reserva el registro destino
     use_rgstr(input_box[1]);
+    //A <- Xn
     output_box[5] = rgstrs[input_box[2]];
+    //B <- Xn
     output_box[6] = rgstrs[input_box[3]];
+    //Estado de ID bien
     output_box[4]=0;
     load_instr();
 }
 
 void id_thread::sw(){
-    if (check_status(input_box[1])) {
+    wb_id_coord->Wait();
+    if (check_status(input_box[1]) || check_status(input_box[2])) {
         send_NOP();
         output_box[4]=1;
         return;
     }
-    if (check_status(input_box[2])) {
-        send_NOP();
-        output_box[4]=1;
-        return;
-    }
+    //A <- Xn
     output_box[5] = rgstrs[input_box[1]];
+    //B <- Xn
     output_box[6] = rgstrs[input_box[2]];
+    //Imm <- Imm
     output_box[7] = input_box[3];
+    //Estado de ID bien
     output_box[4] = 0;
     load_instr();
 }
 
 void id_thread::lw(){
+    wb_id_coord->Wait();
     if (check_status(input_box[2])) {
         send_NOP();
         output_box[4]=1;
         return;
     }
     use_rgstr(input_box[1]);
+    //A <- Xn
     output_box[5] = rgstrs[input_box[2]];
+    //Imm <- Imm
     output_box[7] = input_box[3];
+    //Estado de ID bien
     output_box[4]=0;
     load_instr();
 }
