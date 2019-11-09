@@ -18,6 +18,8 @@ void master_thread::run(){
         final_bar->Wait();
     }
 
+    print_final_statistics();
+
 }
 
 void master_thread::read_threadies(int *instructionVector)
@@ -302,7 +304,24 @@ void master_thread::print_final_statistics(){
 
     printf("\n----------------------------------------------------\n");
 
-    printf("\nFinal State Data Cache\n----------------------------------------------------\n");
+    printf("\nFinal Threadie Contexts\n----------------------------------------------------\n");
+
+    for(size_t i = 0 ; i < final_context_list.size() ; i++){
+        PCB current = final_context_list.back();
+        final_context_list.pop_back();
+        printf("Threadie #%d\n", current.threadie_id);
+        printf("Registers:\n");
+        for (int j = 0 ; j < 33 ; j+=3){
+            if(j+2==32){
+                printf("X%d: %d | X%d: %d | RL: %d\n", j, current.rgstrs[j] , j+1 , current.rgstrs[j+1], current.rgstrs[j+2]);
+            }else{
+                printf("X%d: %d | X%d: %d | X%d: %d\n", j, current.rgstrs[j] , j+1 , current.rgstrs[j+1], j+2 , current.rgstrs[j+2]);
+            }
+        }
+        printf("Execution Cycles: %d\n", current.execution_cycles);
+        printf("Execution Switches: %d\n", current.execution_switches);
+        printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+    }
 }
 
 
