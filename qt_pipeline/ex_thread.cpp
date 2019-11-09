@@ -23,7 +23,8 @@ void ex_thread::executePhase(){
         return ;
     }
 
-    output_box[7] = 0;
+    output_box[7] = 0;//Si se detiene el master lo actualiza
+    output_box[4] = -1;//Luego la instruccion branch la modifica en su caso del switch
     switch (input_box[0]) { //Codigo de operacion
         case 19: //Addi
             addi();

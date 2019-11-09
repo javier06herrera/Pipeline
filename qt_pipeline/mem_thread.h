@@ -99,7 +99,7 @@ public:
     /**
      * @brief passNOPsToWB: Rutina que pasa instrucciones NOPs que no cuentan para el quantum a WB cuando MEM está en fallo de caché
      */
-    void passNOPsToWB();
+    void passNOPsToWB(int type);
 
     /**
      * @brief lw: Rutina que ejecuta la instrucción lw. Revisa si el bloque está cargado en la caché,

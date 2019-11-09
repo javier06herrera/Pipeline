@@ -27,10 +27,22 @@ int if_thread::instr_fetch(){
 
     fail_cycle = 0;
 
-    if (quantum_finished) {
-        send_NOP();
-        return 0;
+    //Si se llega a final de quantum o de hilillo se entra en cambio de contexto
+    if (swt_ctxt_flg)
+    {
+        if(!sent)
+        {
+            send_NOP(3);
+            sent++;
+            return 0;
+        }
+        else
+        {
+            send_NOP(1);
+            return 0;
+        }
     }
+
 
     int num_blk = addr_to_block(pc);
     int num_word = addr_to_word(pc);
@@ -43,6 +55,7 @@ int if_thread::instr_fetch(){
     activate_fail();
     resolve_fault(num_blk,num_word);
     return 0;
+
 }
 
 int if_thread::branch_cmp(){
@@ -55,12 +68,12 @@ int if_thread::branch_cmp(){
 
 void if_thread::activate_fail(){
     fail_cycle = 48;
-    send_NOP();
+    send_NOP(1);
     che_fails++;
 }
 
-void if_thread::send_NOP(){
-    output_box[0]=1;
+void if_thread::send_NOP(int type){
+    output_box[0]=type;
     output_box[1]=0;
     output_box[2]=0;
     output_box[3]=0;
@@ -69,7 +82,7 @@ void if_thread::send_NOP(){
 
 void if_thread::work_fail(){
     fail_cycle--;
-    send_NOP();
+    send_NOP(1);
 }
 
 void if_thread::extract_from_che(int num_blk, int num_word){

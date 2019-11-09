@@ -23,6 +23,9 @@ int id_thread::instr_decode(){
         return 0;
     }
     switch (input_box[0]) { //Codigo de operacion
+        case 3:
+            send_NOP(3); //Nop de cambio de contexto
+            break;
         case 19: //Addi
             addi();
             break;
@@ -72,7 +75,7 @@ int id_thread::instr_decode(){
 void id_thread::jalr(){
     wb_id_coord->Wait();
     if (check_status(input_box[2])) {
-        send_NOP();
+        send_NOP(1);
         output_box[4]=1;
         return;
     }
@@ -89,7 +92,7 @@ void id_thread::jalr(){
 void id_thread::jal(){
     wb_id_coord->Wait();
     if (check_status(input_box[2])) {
-        send_NOP();
+        send_NOP(1);
         //Estado de ID bien
         output_box[4]=1;
         return;
@@ -108,7 +111,7 @@ void id_thread::jal(){
 void id_thread::lr(){
     wb_id_coord->Wait();
     if (check_status(input_box[2])) {
-        send_NOP();
+        send_NOP(1);
         output_box[4]=1;
         return;
     }
@@ -126,7 +129,7 @@ void id_thread::lr(){
 void id_thread::sc(){
     wb_id_coord->Wait();
     if (check_status(input_box[1]) || check_status(input_box[2]) || check_status(32)) {
-        send_NOP();
+        send_NOP(1);
         output_box[4]=1;
         return;
     }
@@ -149,7 +152,7 @@ void id_thread::sc(){
 void id_thread::addi(){
     wb_id_coord->Wait();
     if (check_status(input_box[2])) {
-        send_NOP();
+        send_NOP(1);
         output_box[4]=1;
         return;
     }
@@ -166,7 +169,7 @@ void id_thread::addi(){
 void id_thread::branch(){
     wb_id_coord->Wait();
     if (check_status(input_box[1]) || check_status(input_box[2])) {
-        send_NOP();
+        send_NOP(1);
         output_box[4]=1;
         return;
     }
@@ -184,7 +187,7 @@ void id_thread::branch(){
 void id_thread::op_arithm(){
     wb_id_coord->Wait();
     if (check_status(input_box[2])||check_status(input_box[3])) {
-        send_NOP();
+        send_NOP(1);
         output_box[4]=1;
         return;
     }
@@ -202,7 +205,7 @@ void id_thread::op_arithm(){
 void id_thread::sw(){
     wb_id_coord->Wait();
     if (check_status(input_box[1]) || check_status(input_box[2])) {
-        send_NOP();
+        send_NOP(1);
         output_box[4]=1;
         return;
     }
@@ -220,7 +223,7 @@ void id_thread::sw(){
 void id_thread::lw(){
     wb_id_coord->Wait();
     if (check_status(input_box[2])) {
-        send_NOP();
+        send_NOP(1);
         output_box[4]=1;
         return;
     }
@@ -238,11 +241,27 @@ void id_thread::use_rgstr(int rgstr){
     rgstrs_state[rgstr]++;
 }
 
-void id_thread::send_NOP(){
-    output_box[0]=2;
-    output_box[1]=0;
-    output_box[2]=0;
-    output_box[3]=0;
+void id_thread::send_NOP(int type){
+    if(type==1){
+        output_box[0]=1;
+        output_box[1]=0;
+        output_box[2]=0;
+        output_box[3]=0;
+    }
+    else if(type==2)
+    {
+        output_box[0]=2;
+        output_box[1]=0;
+        output_box[2]=0;
+        output_box[3]=0;
+    }
+    else
+    {
+        output_box[0]=3;
+        output_box[1]=0;
+        output_box[2]=0;
+        output_box[3]=0;
+    }
 }
 
 int id_thread::load_instr(){

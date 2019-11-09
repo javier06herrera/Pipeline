@@ -72,14 +72,30 @@ void master_thread::init_mail_inboxes()
 
 void master_thread::execute_phase()
 {
-
-    //Leer de atras hacia adelante
+    deliver_wb();
+    deliver_mem();
+    deliver_ex();
+    deliver_id();
+    deliver_if();
+    //Pregunta si hay un cambio de contexto que aplicar
+    if(wb_p->input_box[0]==3){
+        //Decide que escenario de cambio de contexto es
+        if(threadie_finished)
+            switch_context(1);
+        else
+            switch_context(0);
+    }
 
 }
 
 void master_thread::deliver_if()
 {
     if_p->input_box[0]= id_p->output_box[4]; //Se le pasa el estado de ID
+    if(if_p->output_box[0]==999)//Pregunta si la ultima instruccion leida en if es la ultima del hilillo
+    {
+        if_p->swt_ctxt_flg=1;
+        threadie_finished=1;
+    }
     if(if_p->input_box[0])
     {
         if_p->input_box[1]=-1;//Como ex esta detenido el master es el que le pasa el -1
@@ -144,8 +160,10 @@ void master_thread::deliver_wb(){
     wb_p->input_box[4]=mem_p->output_box[4];//Trae el ALU OUT
     wb_p->input_box[5]=mem_p->output_box[5];//Trae a LMD
     //Verificamos si llegamos a final de quantum
-    if(wb_p->clock_ticks == quantum_value && quantum_finished==0)
-        quantum_finished=1;
+    if(wb_p->clock_ticks == quantum_value && swt_ctxt_flg==0){
+        swt_ctxt_flg=1;
+        if_p->swt_ctxt_flg=1;
+    }
 
 
 }
@@ -176,6 +194,7 @@ void master_thread::pass_NOP(int accountableNOP, int *dest_mail_box)
 
 int master_thread::switch_context(int type)
 {
+    reset_variables();
     if(type==0){
         PCB* old_context=new PCB();
         for(int i=0; i<33; i++){
@@ -200,6 +219,14 @@ int master_thread::switch_context(int type)
     }
 
 
+}
+
+void master_thread::reset_variables()
+{
+    swt_ctxt_flg=0;
+    if_p->swt_ctxt_flg=0;
+    threadie_finished=0;
+    if_p->sent=0;
 }
 
 

@@ -71,57 +71,63 @@ void mem_thread::executePhase(){
                 output_box[6] = 0;
             }
         }
-        passNOPsToWB();
+        passNOPsToWB(1);
     }else{
         switch (input_box[0]) { //Codigo de operacion
-            case 19: //Addi
-                passALUOutToWB();
-                break;
-            case 71: //Add
-                passALUOutToWB();
-                break;
-            case 83: //Sub
-                passALUOutToWB();
-                break;
-            case 72: //Mul
-                passALUOutToWB();
-                break;
-            case 56: //Div
-                passALUOutToWB();
-                break;
-            case 5:  //Lw
-                lw();
-                break;
-            case 37: //Sw
-                sw();
-                break;
-            case 99: //Beq
-                //Beq no hace nada en MEM
-                break;
-            case 100: //Bne
-                //Bne no hace nada en MEM
-                break;
-            case 51: //Lr
-                lr();
-                break;
-            case 52: //Sc
-                sc();
-                break;
-            case 111: //Jal
-                //Jal no hace nada en MEM
-                break;
-            case 103: //Jalr
-                passALUOutToWB();
-                break;
-            default: //FIN o NOP
-                cout << "No operation executed in MEM" << endl;
-                passNOPsToWB();
+        case 2:
+            passNOPsToWB(2);//NOP de branch
+            break;
+        case 3:
+            passNOPsToWB(3);//NOP de cambio de contexto
+            break;
+        case 19: //Addi
+            passALUOutToWB();
+            break;
+        case 71: //Add
+            passALUOutToWB();
+            break;
+        case 83: //Sub
+            passALUOutToWB();
+            break;
+        case 72: //Mul
+            passALUOutToWB();
+            break;
+        case 56: //Div
+            passALUOutToWB();
+            break;
+        case 5:  //Lw
+            lw();
+            break;
+        case 37: //Sw
+            sw();
+            break;
+        case 99: //Beq
+            //Beq no hace nada en MEM
+            break;
+        case 100: //Bne
+            //Bne no hace nada en MEM
+            break;
+        case 51: //Lr
+            lr();
+            break;
+        case 52: //Sc
+            sc();
+            break;
+        case 111: //Jal
+            //Jal no hace nada en MEM
+            break;
+        case 103: //Jalr
+            passALUOutToWB();
+            break;
+        default: //FIN o NOP
+            cout << "No operation executed in MEM" << endl;
+            passNOPsToWB(1);
         }
         //Se deben pasar los NOP en el primer ciclo en el que se identifica el fallo
         //Para que la instruccion no avance
         if(in_cache_fail_load||in_cache_fail_load)
         {
-            passNOPsToWB();
+            passNOPsToWB(1);
         }
         else
         {
@@ -142,8 +148,8 @@ void mem_thread::passInstrToWB(){
     }
 }
 
-void mem_thread::passNOPsToWB(){
-    output_box[0] = 1;
+void mem_thread::passNOPsToWB(int type){
+    output_box[0] = type;
     for(int i = 1 ; i < 4 ; i++){
         output_box[i] = 0;
     }

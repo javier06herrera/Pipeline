@@ -132,7 +132,7 @@ public:
     \brief send_NOP: carga al output_box, una instrucción de NOP de conflicto de
     datos.
     */
-    void send_NOP();
+    void send_NOP(int type);
     /**
     \brief check_status: Verifica que el registro ingresado no esté siendo utilizado
     por una instrucción posterior.

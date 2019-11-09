@@ -25,7 +25,8 @@ struct PCB{
 class master_thread
 {
 public:
-    int quantum_finished=0;///<Bandera que indica si el quantum terminó
+    int threadie_finished=0;///<Se usa para saber si el cambio de contexto fue por final de hilillo o final de quantum
+    int swt_ctxt_flg=0;///<Bandera que indica si el quantum terminó
     int quantum_value=0;///<Valor de quantum que ingresa el usuario
     int itrn_che_fails=0;///<Contador de fallos de cache de instrucciones
     int dta_che_fails=0;///<Contador de fallos de cache de datos
@@ -130,12 +131,16 @@ public:
      * @brief switch_context Metodo que se encarga de hacer los cambios de contexto agregando a la cola un nuevo contexto y sacando el siguiente
      * @param type
      * 0: El cambio de contexto es normal
-     * 1: El cambio de contexto por final de hilillo
+     * 1: El cambio de contexto es por final de hilillo
      * @return Determina si aun quedan hilillos en la cola de contextos
      * 0: Aun quedan
      * 1: Esta vacia la cola
      */
     int switch_context(int type);
+    /**
+     * @brief reset_variables Se encarga de volver las variables de control pertinentes luego de un cambio de contexto
+     */
+    void reset_variables();
 
 
 

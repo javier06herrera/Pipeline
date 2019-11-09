@@ -13,8 +13,9 @@
 class if_thread
 {
 public:
+    int sent=0;///<Controla que solo pase una instruccion de cambio de contexto y no varias
     int fail_cycle; ///< Indica los ciclos de fallos restantes a resolver
-    int quantum_finished=0;
+    int swt_ctxt_flg=0;///<Bandera que identifica si e quantum se acabo
     Barrier* master_bar; ///< Barrera para que empiece a trabajar el hilo master.
     Barrier* final_bar; ///< Barrera final de ejecución.
     int* intr_che; ///< Caché de instrucciones.
@@ -42,7 +43,7 @@ public:
     /**
     \brief send_NOP: Se envía al output_box un nop de fallo de caché.
     */
-    void send_NOP();
+    void send_NOP(int type);
     /**
     \brief activate_fail: Activa el fallo de caché por la cantidad de ciclos en los
     cuales va a durar. También envía un NOP de fallo de caché a la
