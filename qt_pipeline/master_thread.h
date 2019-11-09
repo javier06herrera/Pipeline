@@ -40,7 +40,7 @@ public:
     int dta_che_fails=0;///<Contador de fallos de cache de datos
     int overwrite_cycles=2; ///<Contador de cuantas instrucciones se van a sobreescribir en caso de branch tomado
     int thread_id=0;///<Identificador del thread
-    queue<PCB> context_list;///<Cola donde se guardan los contextos
+    list<PCB> context_list;///<Cola donde se guardan los contextos
     list<PCB> final_context_list; ///<Lista de contextos finales de los hilillos que finalizaron ejecucion
 
     if_thread* if_p; ///<Puntero a objeto en el que corre if
@@ -162,6 +162,8 @@ public:
      * @brief upld_frst_ctxt Carga el primer contexto de la simulacion
      */
     void upld_frst_ctxt();
+
+    void print_mailboxes();
 
 
 

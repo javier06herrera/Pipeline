@@ -67,7 +67,8 @@ void ex_thread::executePhase(){
             jalr();
             break;
         default: //FIN o NOP
-            cout << "No operation executed in EX" << endl;
+            //cout << "No operation executed in EX" << endl;
+            break;
     }
 
     passInstrToMem();

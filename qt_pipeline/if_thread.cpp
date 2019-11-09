@@ -18,7 +18,7 @@ int if_thread::instr_fetch(){
     int branch = branch_cmp();
 
     if (fail_cycle && !branch){
-        if(fail_cycle){
+        if(fail_cycle==48){
             int num_blk = addr_to_block(pc);
             int num_word = addr_to_word(pc);
             resolve_fault(num_blk,num_word);
@@ -52,13 +52,16 @@ int if_thread::instr_fetch(){
 
 
     int num_blk = addr_to_block(pc);
+
     int num_word = addr_to_word(pc);
+    printf("\nBlock: %d,  Word: %d\n", num_blk,num_word);
     if (exists(num_blk)) {
         extract_from_che(num_blk, num_word);
         output_box[4]=pc;
         pc = pc + 4;
         return 1;
     }
+    printf("\nOops, estoy en fallo\n");
     activate_fail();
     return 0;
 
@@ -101,17 +104,17 @@ void if_thread::extract_from_che(int num_blk, int num_word){
 }
 
 void if_thread::resolve_fault(int num_blk, int num_word){
-    int num_blk_mem = num_blk-24;
-    num_blk_mem = num_blk_mem*16;
+    int num_blk_mem = num_blk*16;
 
     int num_blk_che = num_blk%4;
 
     block_id_intr_che[num_blk_che] = num_blk;
 
-    num_blk_che = num_blk*16;
+    num_blk_che = num_blk_che*16;
 
     for (int i = 0; i < 16; i++) {
         intr_che[num_blk_che] = intr_mem[num_blk_mem];
+        printf(" %d ", intr_mem[num_blk_mem]);
         num_blk_che ++;
         num_blk_mem ++;
     }
@@ -119,11 +122,10 @@ void if_thread::resolve_fault(int num_blk, int num_word){
 }
 
 int if_thread::exists(int num_blk){
-    for (int i = 0; i < 4; i++) {
-        if (block_id_intr_che[i] == num_blk) {
+    if (block_id_intr_che[num_blk%4] == num_blk) {
             return 1;
-        }
     }
+    printf("Bloque no esta aqui");
     return 0;
 }
 

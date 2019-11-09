@@ -63,7 +63,8 @@ void wb_thread::execute_pahse()
         jalr();
         break;
     default: //FIN o NOP
-        cout << "No operation executed in Wb" << endl;
+        //cout << "No operation executed in Wb" << endl;
+        break;
     }
 }
 

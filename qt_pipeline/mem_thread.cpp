@@ -123,7 +123,7 @@ void mem_thread::executePhase(){
             passALUOutToWB();
             break;
         default: //FIN o NOP
-            cout << "No operation executed in MEM" << endl;
+            //cout << "No operation executed in MEM" << endl;
             passNOPsToWB(1);
         }
         //Se deben pasar los NOP en el primer ciclo en el que se identifica el fallo

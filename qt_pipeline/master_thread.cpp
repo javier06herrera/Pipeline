@@ -18,6 +18,7 @@ void master_thread::run()
     {
         master_bar->Wait();
         execute_phase();
+        print_mailboxes();
         final_bar->Wait();
     }
 
@@ -37,7 +38,7 @@ void master_thread::read_threadies(int *instructionVector)
         context->threadie_id=i;
         context->execution_cycles = 0;
         context->execution_switches = 0;
-        context_list.push(*context);
+        context_list.push_back(*context);
         //*********************************************
 
         string filename = "HilillosPruebaFinal/" + to_string(i) + ".txt";
@@ -233,7 +234,7 @@ int master_thread::switch_context(int type)
         old_context->execution_cycles = current_threadie_execution_cycles;
         old_context->execution_switches = current_threadie_execution_switches;
 
-        context_list.push(*old_context);
+        context_list.push_back(*old_context);
     }
     if(!context_list.empty()){
         PCB new_context= context_list.front();
@@ -247,7 +248,7 @@ int master_thread::switch_context(int type)
         current_threadie_execution_cycles = new_context.execution_cycles;
         current_threadie_execution_switches = new_context.execution_switches + 1;
 
-        context_list.pop();
+        context_list.pop_front();
         return 0;
     }else{
         end_of_program=1;
@@ -343,7 +344,15 @@ void master_thread::upld_frst_ctxt()
     current_threadie_execution_cycles = new_context.execution_cycles;
     current_threadie_execution_switches = new_context.execution_switches + 1;
 
-    context_list.pop();
+    context_list.pop_front();
+}
+
+void master_thread::print_mailboxes()
+{
+    printf("Buzon entrada IF: Estado ID:%d , PC Branch:%d\n", if_p->input_box[0], if_p->input_box[1]);
+    printf("PC: %d\n", if_p->pc);
+    printf("Buzon salida IF: Instruccion:%d|%d|%d|%d , PC:%d\n", if_p->output_box[0],if_p->output_box[1],if_p->output_box[2],if_p->output_box[3], if_p->input_box[4]);
+    printf("------------------------------\n");
 }
 
 
