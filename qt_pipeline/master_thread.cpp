@@ -279,7 +279,28 @@ void master_thread::print_final_statistics(){
     printf("Block|\tWord 0|\tWord 1|\tWord 2|\tWord 3\n");
     for (int i = 0 ; i < 16 ; i+=4){//Estado final de la cache de datos
         int block = mem_p->block_id_dta_che[i/4];
+        int word0 = mem_p->data_che[i];
+        int word1 = mem_p->data_che[i+1];
+        int word2 = mem_p->data_che[i+2];
+        int word3 = mem_p->data_che[i+3];
+        printf("%d\t%d\t%d\t%d\t%d\n" , block, word0, word1, word2, word3 );
     }
+
+    printf("\n----------------------------------------------------\n");
+
+    printf("General Data Cache Failure Rate: %f", double(mem_p->read_che_fails+mem_p->write_che_fails)/double(mem_p->read_mem_rqst+mem_p->write_mem_rqst));
+
+    printf("\n----------------------------------------------------\n");
+
+    printf("Load Data Cache Failure Rate: %f", double(mem_p->read_che_fails)/double(mem_p->read_mem_rqst));
+
+    printf("\n----------------------------------------------------\n");
+
+    printf("Store Data Cache Failure Rate: %f", double(mem_p->write_che_fails)/double(mem_p->write_mem_rqst));
+
+    printf("\n----------------------------------------------------\n");
+
+    printf("\nFinal State Data Cache\n----------------------------------------------------\n");
 }
 
 
