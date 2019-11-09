@@ -278,7 +278,7 @@ void master_thread::print_final_statistics(){
     printf("\nFinal State Data Cache\n----------------------------------------------------\n");
     printf("Block|\tWord 0|\tWord 1|\tWord 2|\tWord 3\n");
     for (int i = 0 ; i < 16 ; i+=4){//Estado final de la cache de datos
-        int block = mem_p->block_id_dta_che[i/4]
+        int block = mem_p->block_id_dta_che[i/4];
     }
 }
 
