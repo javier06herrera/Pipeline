@@ -6,7 +6,7 @@ wb_thread::wb_thread()
 
 }
 
-void wb_thread::run(void* data){
+void wb_thread::run(){
     final_bar->Wait();
     while (!end_of_program) {
         execute_pahse();

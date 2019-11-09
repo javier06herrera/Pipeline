@@ -7,7 +7,7 @@ id_thread::id_thread(){
 
 }
 
-void id_thread::run(void *data){
+void id_thread::run(){
     final_bar->Wait();
     while (!end_of_program)
     {

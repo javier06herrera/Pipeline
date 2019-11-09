@@ -4,7 +4,7 @@ if_thread::if_thread(){
 
 }
 
-void if_thread::run(void* data){
+void if_thread::run(){
     final_bar->Wait();
     while (!end_of_program)
     {

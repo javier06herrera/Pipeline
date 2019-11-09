@@ -83,6 +83,9 @@ void init_structures(if_thread* if_p, id_thread* id_p, ex_thread* ex_p, mem_thre
     master_p->wb_p=wb_p;
     master_p->master_bar=master_bar;
     master_p->final_bar=final_bar;
+    //string user_quantum;
+    cin>>master_p->quantum_value;
+
 }
 
 
@@ -99,12 +102,12 @@ int main()
 
     init_structures(if_p,id_p,ex_p,mem_p,wb_p,master_p);
 
-    thread master_t(&master_thread::run, master_p, nullptr);
-    thread if_t(&if_thread::run, if_p, nullptr);
-    thread id_t(&id_thread::run, id_p, nullptr);
-    thread ex_t(&ex_thread::run, ex_p, nullptr);
-    thread mem_t(&mem_thread::run, mem_p, nullptr);
-    thread wb_t(&wb_thread::run, wb_p, nullptr);
+    thread master_t(&master_thread::run, master_p);
+    thread if_t(&if_thread::run, if_p);
+    thread id_t(&id_thread::run, id_p);
+    thread ex_t(&ex_thread::run, ex_p);
+    thread mem_t(&mem_thread::run, mem_p);
+    thread wb_t(&wb_thread::run, wb_p);
 
     if_t.join();
     id_t.join();

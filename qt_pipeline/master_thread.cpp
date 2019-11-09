@@ -7,7 +7,7 @@ master_thread::master_thread()
 
 }
 
-void master_thread::run(void *data){
+void master_thread::run(){
     read_threadies(if_p->intr_mem);
     init_mail_inboxes();
     final_bar->Wait(); //Aqui estan esperando todos los threads a que se les inicialice sus valores
@@ -224,6 +224,7 @@ int master_thread::switch_context(int type)
         old_context->threadie_id=current_threadie_id;
         old_context->execution_cycles = current_threadie_execution_cycles;
         old_context->execution_switches = current_threadie_execution_switches;
+
         context_list.push(*old_context);
     }
     if(!context_list.empty()){
@@ -237,6 +238,7 @@ int master_thread::switch_context(int type)
         current_threadie_id=new_context.threadie_id;
         current_threadie_execution_cycles = new_context.execution_cycles;
         current_threadie_execution_switches = new_context.execution_switches + 1;
+
         context_list.pop();
         return 0;
     }else{

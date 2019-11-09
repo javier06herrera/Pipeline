@@ -5,7 +5,7 @@ ex_thread::ex_thread()
 
 }
 
-void ex_thread::run(void *data){
+void ex_thread::run(){
     //Espera a que el master thread inicialice todo
     final_bar->Wait();
     while (!end_of_program)
