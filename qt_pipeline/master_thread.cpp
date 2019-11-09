@@ -90,19 +90,22 @@ void master_thread::deliver_ex()
     ex_p->input_box[8]=mem_p->output_box[6];//Siempre hay que pasarle el estado de mem para verificar si puede avanzar
 
     //Verifica si mem esta detenido por un fallo de cache
-    if(ex_p->output_box[6])
+    if(ex_p->input_box[8])
         return;
     /*Si el branch resulto verdadero se le debe pasar por dos ciclos NOPs para simular los retrasos de las
     dos instrucciones malas*/
-    if(ex_p->branch_result && overwrite_cycles<2)
+    if(ex_p->branch_result){
+        update_op_cod(id_p->output_box,ex_p->input_box);//Se pasa la instruccion branch en el mismo ciclo que se detecta que fue tomado
+        overwrite_cycles=0;
+        ex_p->branch_result=false;
+    }
+    else if(overwrite_cycles<2)
     {
         pass_NOP(1,ex_p->input_box);//Estos NOP si cuentan
         overwrite_cycles++;
     }
     else
     {
-        ex_p->branch_result=false;//Se reinician la banderas del branch una vez resuelto
-        overwrite_cycles=0;//Se reinicia el contador de sobrescrituras una vez se resuelve el branch
         update_op_cod(id_p->output_box,ex_p->input_box);
         ex_p->input_box[4]=id_p->output_box[5];//Trae el valor de A
         ex_p->input_box[5]=id_p->output_box[6];//Trae el valor de B
@@ -129,7 +132,7 @@ void master_thread::deliver_wb(){
     wb_p->input_box[4]=mem_p->output_box[4];//Trae el ALU OUT
     wb_p->input_box[5]=mem_p->output_box[5];//Trae a LMD
     //Verificamos si llegamos a final de quantum
-    if(wb_p->clock_ticks==quantum_value && quantum_finished==0)
+    if(wb_p->clock_ticks == quantum_value && quantum_finished==0)
         quantum_finished=1;
 
 

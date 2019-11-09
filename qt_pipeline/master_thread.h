@@ -20,7 +20,7 @@ public:
     int quantum_value=0;///<Valor de quantum que ingresa el usuario
     int itrn_che_fails=0;///<Contador de fallos de cache de instrucciones
     int dta_che_fails=0;///<Contador de fallos de cache de datos
-    int overwrite_cycles=0; ///<Contador de cuantas instrucciones se van a sobreescribir en caso de branch tomado
+    int overwrite_cycles=2; ///<Contador de cuantas instrucciones se van a sobreescribir en caso de branch tomado
     int thread_id=0;///<Identificador del thread
 
     if_thread* if_p; ///<Puntero a objeto en el que corre if
