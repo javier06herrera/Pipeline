@@ -58,6 +58,7 @@ void mem_thread::executePhase(){
             if(cache_fail_cycles < 48){
                 cache_fail_cycles++;
             }else{
+                loadBlockToCache(input_box[4]);
                 in_cache_fail_load = false;
                 cache_fail_cycles = 0;
                 output_box[6] = 0;
@@ -66,6 +67,7 @@ void mem_thread::executePhase(){
             if(cache_fail_cycles < 12){
                 cache_fail_cycles++;
             }else{
+                data_mem[getIndexInDataMemory(input_box[4])] = input_box[5]; //Write No-Allocate
                 in_cache_fail_store = false;
                 cache_fail_cycles = 0;
                 output_box[6] = 0;
@@ -159,7 +161,6 @@ void mem_thread::lw(){
     int address = input_box[4];
     if(!isBlockInDataCache(address)){
         in_cache_fail_load = true;
-        loadBlockToCache(address);
         read_che_fails++;
         output_box[6] = 1;
     }
@@ -175,7 +176,6 @@ void mem_thread::sw(){
     if(!isBlockInDataCache(address)){ //Cache miss
         in_cache_fail_store = true;
         write_che_fails++;
-        data_mem[getIndexInDataMemory(address)] = input_box[5]; //Write No-Allocate
         output_box[6] = 1;
     }else{ //Cache hit
         in_cache_fail_store = true; //Como es Write-Through se utiliza la misma bandera de fallo
