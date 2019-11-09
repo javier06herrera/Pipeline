@@ -23,6 +23,14 @@ void master_thread::read_threadies(int *instructionVector)
 {
     int vecCounter = 0;
     for (int i = 0; i < 7; i++) {
+        //No tocar
+        //*********************************************
+        PCB* context=new PCB();
+        context->PC=vecCounter;
+        context_list.push(*context);
+        //*********************************************
+
+
         string filename = "HilillosPruebaFinal/" + to_string(i) + ".txt";
         ifstream infile(filename);
         int byte1, byte2, byte3, byte4;
@@ -71,8 +79,12 @@ void master_thread::execute_phase()
 
 void master_thread::deliver_if()
 {
-    //Se debe preguntar primero si esta en fallo de cache
-    if_p->input_box[0]=id_p->output_box[4];
+    if_p->input_box[0]= id_p->output_box[4]; //Se le pasa el estado de ID
+    if(if_p->input_box[0])
+    {
+        if_p->input_box[1]=-1;//Como ex esta detenido el master es el que le pasa el -1
+        return;
+    }
     if_p->input_box[1]=ex_p->output_box[4];
 }
 
@@ -160,6 +172,34 @@ void master_thread::pass_NOP(int accountableNOP, int *dest_mail_box)
         for(int i=1; i<4;i++)
             dest_mail_box[i]=0;
     }
+}
+
+int master_thread::switch_context(int type)
+{
+    if(type==0){
+        PCB* old_context=new PCB();
+        for(int i=0; i<33; i++){
+            old_context->rgstrs[i] = id_p->rgstrs[i];
+            old_context->rgstrs_state[i]=id_p->rgstrs_state[i];
+        }
+        old_context->PC=if_p->pc;
+        context_list.push(*old_context);
+    }
+    if(!context_list.empty()){
+        PCB new_context= context_list.front();
+        for(int i=0; i<32; i++){
+            id_p->rgstrs[i]=new_context.rgstrs[i];
+            id_p->rgstrs_state[i]=new_context.rgstrs_state[i];
+        }
+        id_p->rgstrs[32]=-1;
+        if_p->pc=new_context.PC;
+        context_list.pop();
+        return 0;
+    }else{
+        return 1;
+    }
+
+
 }
 
 

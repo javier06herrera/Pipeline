@@ -126,7 +126,7 @@ int main()
     delete mem_p;
     delete wb_p;
 
-
+    //Tentativamente hcer delete de la estructura de contextos
 
     return 0;
 }

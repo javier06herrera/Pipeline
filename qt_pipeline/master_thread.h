@@ -8,6 +8,15 @@
 #include "wb_thread.h"
 #include "barrier.h"
 #include <iostream>
+#include <queue>
+/**
+ * @brief The PCB struct guarda el contexto de un hilillo
+ */
+struct PCB{
+    int rgstrs[33]={0};
+    int rgstrs_state[33]={0};
+    int PC;
+};
 
 /**
  * @brief The master_thread class Se encarga de administrar las comunicacion entre etapas
@@ -22,6 +31,7 @@ public:
     int dta_che_fails=0;///<Contador de fallos de cache de datos
     int overwrite_cycles=2; ///<Contador de cuantas instrucciones se van a sobreescribir en caso de branch tomado
     int thread_id=0;///<Identificador del thread
+    queue<PCB> context_list;///<Cola donde se guardan los contextos
 
     if_thread* if_p; ///<Puntero a objeto en el que corre if
     id_thread* id_p;///<Puntero a objeto en el que corre id
@@ -116,6 +126,16 @@ public:
      * @param dest_mail_box Puntero a arreglo en donde se escribe la instruccion
      */
     void pass_NOP(int accountableNOP,int *dest_mail_box);
+    /**
+     * @brief switch_context Metodo que se encarga de hacer los cambios de contexto agregando a la cola un nuevo contexto y sacando el siguiente
+     * @param type
+     * 0: El cambio de contexto es normal
+     * 1: El cambio de contexto por final de hilillo
+     * @return Determina si aun quedan hilillos en la cola de contextos
+     * 0: Aun quedan
+     * 1: Esta vacia la cola
+     */
+    int switch_context(int type);
 
 
 
