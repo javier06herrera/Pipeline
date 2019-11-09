@@ -5,9 +5,12 @@ if_thread::if_thread(){
 }
 
 void if_thread::run(void* data){
-    final_bar->Wait();
-    instr_fetch();
-    master_bar->Wait();
+    while (true)
+    {
+        final_bar->Wait();
+        instr_fetch();
+        master_bar->Wait();
+    }
 }
 
 int if_thread::instr_fetch(){

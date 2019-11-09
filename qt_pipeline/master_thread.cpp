@@ -10,9 +10,12 @@ master_thread::master_thread()
 void master_thread::run(void *data){
     read_threadies(if_p->intr_mem);
     init_mail_inboxes();
-    final_bar->Wait(); //Aqui estan esperando todos los threads a que se les inicialice sus valores
-    master_bar->Wait();
-    execute_phase();
+    while (true)
+    {
+        final_bar->Wait(); //Aqui estan esperando todos los threads a que se les inicialice sus valores
+        master_bar->Wait();
+        execute_phase();
+    }
 
 }
 

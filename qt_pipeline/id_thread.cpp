@@ -8,10 +8,13 @@ id_thread::id_thread(){
 }
 
 void id_thread::run(void *data){
-    final_bar->Wait();
-    wb_id_coord->Wait();
-    instr_decode();
-    master_bar->Wait();
+    while (true)
+    {
+        final_bar->Wait();
+        instr_decode();
+        master_bar->Wait();
+    }
+
 }
 
 int id_thread::instr_decode(){

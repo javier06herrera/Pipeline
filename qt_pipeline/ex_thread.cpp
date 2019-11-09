@@ -7,9 +7,13 @@ ex_thread::ex_thread()
 
 void ex_thread::run(void *data){
     //Espera a que el master thread inicialice todo
-    final_bar->Wait();
-    executePhase();
-    master_bar->Wait();
+    while (true)
+    {
+        final_bar->Wait();
+        executePhase();
+        master_bar->Wait();
+    }
+
 }
 
 void ex_thread::executePhase(){
