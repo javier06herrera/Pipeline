@@ -10,11 +10,12 @@ master_thread::master_thread()
 void master_thread::run(void *data){
     read_threadies(if_p->intr_mem);
     init_mail_inboxes();
-    while (true)
+    final_bar->Wait(); //Aqui estan esperando todos los threads a que se les inicialice sus valores
+    while (!end_of_program)
     {
-        final_bar->Wait(); //Aqui estan esperando todos los threads a que se les inicialice sus valores
         master_bar->Wait();
         execute_phase();
+        final_bar->Wait();
     }
 
 }
@@ -215,6 +216,7 @@ int master_thread::switch_context(int type)
         context_list.pop();
         return 0;
     }else{
+        end_of_program=1;
         return 1;
     }
 

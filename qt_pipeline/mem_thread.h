@@ -12,6 +12,7 @@
 class mem_thread
 {
 public:
+    int end_of_program=0;///<Bandera que controla si aun quedan hilos por correr
     bool in_cache_fail_store = false; ///<Bandera de aviso que ocurrió un fallo de caché por escritura(12 ciclos)
     bool in_cache_fail_load = false; ///<Bandera de aviso que ocurrió un fallo de caché por lectura(48 ciclos)
     int cache_fail_cycles = 0;///< Contador de los ciclos de solucion de fallo de cache que se llevan hasta el momento

@@ -5,11 +5,12 @@ if_thread::if_thread(){
 }
 
 void if_thread::run(void* data){
-    while (true)
+    final_bar->Wait();
+    while (!end_of_program)
     {
-        final_bar->Wait();
         instr_fetch();
         master_bar->Wait();
+        final_bar->Wait();
     }
 }
 
@@ -17,6 +18,11 @@ int if_thread::instr_fetch(){
     int branch = branch_cmp();
 
     if (fail_cycle && !branch){
+        if(fail_cycle){
+            int num_blk = addr_to_block(pc);
+            int num_word = addr_to_word(pc);
+            resolve_fault(num_blk,num_word);
+        }
         work_fail();
         return 0;
     }
@@ -30,6 +36,7 @@ int if_thread::instr_fetch(){
     //Si se llega a final de quantum o de hilillo se entra en cambio de contexto
     if (swt_ctxt_flg)
     {
+        //Controla que solo se mande un cambio de contexto
         if(!sent)
         {
             send_NOP(3);
@@ -53,7 +60,6 @@ int if_thread::instr_fetch(){
         return 1;
     }
     activate_fail();
-    resolve_fault(num_blk,num_word);
     return 0;
 
 }

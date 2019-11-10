@@ -6,10 +6,11 @@ mem_thread::mem_thread()
 }
 
 void mem_thread::run(void *data){
-    while (true) {
-        final_bar->Wait();
+    final_bar->Wait();
+    while (!end_of_program) {
         executePhase();
         master_bar->Wait();
+        final_bar->Wait();
     }
 }
 

@@ -7,12 +7,11 @@ wb_thread::wb_thread()
 }
 
 void wb_thread::run(void* data){
-    while (true) {
-        final_bar->Wait();
-        if(end_of_program)
-            break;
+    final_bar->Wait();
+    while (!end_of_program) {
         execute_pahse();
         master_bar->Wait();
+        final_bar->Wait();
     }
 
 }

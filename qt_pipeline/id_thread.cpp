@@ -8,11 +8,12 @@ id_thread::id_thread(){
 }
 
 void id_thread::run(void *data){
-    while (true)
+    final_bar->Wait();
+    while (!end_of_program)
     {
-        final_bar->Wait();
         instr_decode();
         master_bar->Wait();
+        final_bar->Wait();
     }
 
 }

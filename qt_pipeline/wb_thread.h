@@ -15,7 +15,7 @@ public:
     Barrier* wb_id_coord;
     int thread_id=5;
     int clock_ticks=0;
-    int end_of_program=0; ///< Bandera que se usa para saber si se debe terminar el ciclo while de mem
+    int end_of_program=0;///<Bandera que controla si aun quedan hilos por correr
 
     /**
      * @brief wb_thread Constructor de master thread

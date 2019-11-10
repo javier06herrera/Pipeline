@@ -7,6 +7,7 @@
 class ex_thread
 {
 public:
+    int end_of_program=0;///<Bandera que controla si aun quedan hilos por correr
     bool branch_result = false; ///<Bandera que indica si un branch fue tomado o no
     Barrier* master_bar; ///<Barrera con la cual se le da tiempo a EX de ejecutarse
     Barrier* final_bar; ///<Barrera que permite al master realizar entrega de correos

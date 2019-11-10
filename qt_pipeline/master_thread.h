@@ -25,6 +25,7 @@ struct PCB{
 class master_thread
 {
 public:
+    int end_of_program=0;///<Bandera que controla si aun quedan hilos por correr
     int threadie_finished=0;///<Se usa para saber si el cambio de contexto fue por final de hilillo o final de quantum
     int swt_ctxt_flg=0;///<Bandera que indica si el quantum terminó
     int quantum_value=0;///<Valor de quantum que ingresa el usuario

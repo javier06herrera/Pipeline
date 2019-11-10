@@ -11,6 +11,7 @@ y interpretarla según corresponda. También debe preveer conflictos de datos.
 class id_thread
 {
 public:
+    int end_of_program=0;///<Bandera que controla si aun quedan hilos por correr
     int* rgstrs; ///< Son los registros principales del procesador
     int* rgstrs_state; ///< Señala los registros que se están usando como destino.
     int thread_id=2; ///< Identificador de hilo.

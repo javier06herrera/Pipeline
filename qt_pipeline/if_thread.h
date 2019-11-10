@@ -13,6 +13,7 @@
 class if_thread
 {
 public:
+    int end_of_program=0;///<Bandera que controla si aun quedan hilos por correr
     int sent=0;///<Controla que solo pase una instruccion de cambio de contexto y no varias
     int fail_cycle; ///< Indica los ciclos de fallos restantes a resolver
     int swt_ctxt_flg=0;///<Bandera que identifica si e quantum se acabo
