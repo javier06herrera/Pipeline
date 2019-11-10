@@ -157,8 +157,11 @@ public:
      * Tasas de fallos
      * contenido del pcb
      */
-
     void print_final_statistics();
+    /**
+     * @brief upld_frst_ctxt Carga el primer contexto de la simulacion
+     */
+    void upld_frst_ctxt();
 
 
 

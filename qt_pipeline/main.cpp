@@ -84,7 +84,8 @@ void init_structures(if_thread* if_p, id_thread* id_p, ex_thread* ex_p, mem_thre
     master_p->master_bar=master_bar;
     master_p->final_bar=final_bar;
     //string user_quantum;
-    cin>>master_p->quantum_value;
+    //cin>>master_p->quantum_value;
+    master_p->quantum_value=50;
 
 }
 
