@@ -204,6 +204,7 @@ int master_thread::switch_context(int type)
             old_context->rgstrs_state[i]=id_p->rgstrs_state[i];
         }
         old_context->PC=if_p->pc;
+        old_context->thread_id=current_threadi;
         context_list.push(*old_context);
     }
     if(!context_list.empty()){
@@ -214,6 +215,7 @@ int master_thread::switch_context(int type)
         }
         id_p->rgstrs[32]=-1;
         if_p->pc=new_context.PC;
+        current_threadi=new_context.thread_id;
         context_list.pop();
         return 0;
     }else{
