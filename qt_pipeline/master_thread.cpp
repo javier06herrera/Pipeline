@@ -19,6 +19,8 @@ void master_thread::run()
         final_bar->Wait();
     }
 
+    print_final_statistics();
+
 }
 
 void master_thread::read_threadies(int *instructionVector)
@@ -285,6 +287,44 @@ void master_thread::print_final_statistics(){
     printf("Block|\tWord 0|\tWord 1|\tWord 2|\tWord 3\n");
     for (int i = 0 ; i < 16 ; i+=4){//Estado final de la cache de datos
         int block = mem_p->block_id_dta_che[i/4];
+        int word0 = mem_p->data_che[i];
+        int word1 = mem_p->data_che[i+1];
+        int word2 = mem_p->data_che[i+2];
+        int word3 = mem_p->data_che[i+3];
+        printf("%d\t%d\t%d\t%d\t%d\n" , block, word0, word1, word2, word3 );
+    }
+
+    printf("\n----------------------------------------------------\n");
+
+    printf("General Data Cache Failure Rate: %f", double(mem_p->read_che_fails+mem_p->write_che_fails)/double(mem_p->read_mem_rqst+mem_p->write_mem_rqst));
+
+    printf("\n----------------------------------------------------\n");
+
+    printf("Load Data Cache Failure Rate: %f", double(mem_p->read_che_fails)/double(mem_p->read_mem_rqst));
+
+    printf("\n----------------------------------------------------\n");
+
+    printf("Store Data Cache Failure Rate: %f", double(mem_p->write_che_fails)/double(mem_p->write_mem_rqst));
+
+    printf("\n----------------------------------------------------\n");
+
+    printf("\nFinal Threadie Contexts\n----------------------------------------------------\n");
+
+    for(size_t i = 0 ; i < final_context_list.size() ; i++){
+        PCB current = final_context_list.back();
+        final_context_list.pop_back();
+        printf("Threadie #%d\n", current.threadie_id);
+        printf("Registers:\n");
+        for (int j = 0 ; j < 33 ; j+=3){
+            if(j+2==32){
+                printf("X%d: %d | X%d: %d | RL: %d\n", j, current.rgstrs[j] , j+1 , current.rgstrs[j+1], current.rgstrs[j+2]);
+            }else{
+                printf("X%d: %d | X%d: %d | X%d: %d\n", j, current.rgstrs[j] , j+1 , current.rgstrs[j+1], j+2 , current.rgstrs[j+2]);
+            }
+        }
+        printf("Execution Cycles: %d\n", current.execution_cycles);
+        printf("Execution Switches: %d\n", current.execution_switches);
+        printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
     }
 }
 
