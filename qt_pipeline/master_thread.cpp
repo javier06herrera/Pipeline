@@ -28,6 +28,7 @@ void master_thread::read_threadies(int *instructionVector)
         //*********************************************
         PCB* context=new PCB();
         context->PC=vecCounter;
+        context->thread_id=i;
         context_list.push(*context);
         //*********************************************
 
@@ -217,6 +218,12 @@ int master_thread::switch_context(int type)
         return 0;
     }else{
         end_of_program=1;
+        if_p->end_of_program=1;
+        id_p->end_of_program=1;
+        ex_p->end_of_program=1;
+        mem_p->end_of_program=1;
+        wb_p->end_of_program=1;
+
         return 1;
     }
 

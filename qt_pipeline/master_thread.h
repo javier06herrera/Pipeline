@@ -16,6 +16,7 @@ struct PCB{
     int rgstrs[33]={0};
     int rgstrs_state[33]={0};
     int PC;
+    int thread_id;
 };
 
 /**
