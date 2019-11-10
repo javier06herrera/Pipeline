@@ -196,7 +196,9 @@ void master_thread::pass_NOP(int accountableNOP, int *dest_mail_box)
 
 int master_thread::switch_context(int type)
 {
+    
     reset_variables();
+    
     if(type==0){
         PCB* old_context=new PCB();
         for(int i=0; i<33; i++){
