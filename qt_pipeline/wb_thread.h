@@ -27,7 +27,7 @@ public:
      * @brief run: Primera rutina de ejecucion de un thread
      * @param data: Elemento para pasar datos al thread cuando inicia
      */
-    void run (void* data);
+    void run ();
 
     void execute_pahse();
 

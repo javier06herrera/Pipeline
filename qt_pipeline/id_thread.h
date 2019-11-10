@@ -26,7 +26,7 @@ public:
      * @brief run: Primera rutina de ejecución de un thread.
      * @param data: Elemento para pasar datos al thread cuando inicia
      */
-    void run (void* data);
+    void run ();
     /**
     \brief instr_decode: Se encarga en que formato de decodificarse la instrucción.
     \returns Retorna 1 si se realizó normalmente, de lo contrario 0.

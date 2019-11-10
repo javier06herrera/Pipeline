@@ -39,7 +39,7 @@ public:
      * @brief run: Primera rutina de ejecución de un thread.
      * @param data: Elemento para pasar datos al thread cuando inicia
      */
-    void run (void* data);
+    void run ();
 
     /**
      * @brief memAddressToBlock: Función que transforma la dirección dada en la instrucción a su respectivo número de bloque

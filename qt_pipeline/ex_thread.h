@@ -24,7 +24,7 @@ public:
      * @brief run: Primera rutina de ejecución de un thread
      * @param data: Elemento para pasar datos al thread cuando inicia
      */
-    void run (void* data);
+    void run ();
 
     /**
      * @brief executePhase: Rutina que lee el código de operación del IR y ejecuta la instrucción respectiva, luego pasa el IR a MEM

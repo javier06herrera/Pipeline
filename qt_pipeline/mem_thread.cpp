@@ -5,7 +5,7 @@ mem_thread::mem_thread()
 
 }
 
-void mem_thread::run(void *data){
+void mem_thread::run(){
     final_bar->Wait();
     while (!end_of_program) {
         executePhase();

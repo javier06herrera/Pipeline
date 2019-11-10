@@ -34,7 +34,7 @@ public:
      * @brief run: Primera rutina de ejecución de un thread.
      * @param data: Elemento para pasar datos al thread cuando inicia
      */
-    void run(void* data);
+    void run();
     /**
     \brief instr_fetch: Se encarga de hacer todos los llamados para completar la
     ejecución de la etapa IF.

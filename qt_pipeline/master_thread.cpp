@@ -7,7 +7,7 @@ master_thread::master_thread()
 
 }
 
-void master_thread::run(void *data){
+void master_thread::run(){
     read_threadies(if_p->intr_mem);
     init_mail_inboxes();
     final_bar->Wait(); //Aqui estan esperando todos los threads a que se les inicialice sus valores
