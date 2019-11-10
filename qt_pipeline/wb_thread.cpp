@@ -18,6 +18,7 @@ void wb_thread::run(void* data){
 
 void wb_thread::execute_pahse()
 {
+    cpu_clock++;
     if(input_box[0]!=1)
         clock_ticks++;
 

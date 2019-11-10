@@ -9,6 +9,7 @@
 #include "barrier.h"
 #include <iostream>
 #include <queue>
+#include <list>
 /**
  * @brief The PCB struct guarda el contexto de un hilillo
  */
@@ -16,7 +17,9 @@ struct PCB{
     int rgstrs[33]={0};
     int rgstrs_state[33]={0};
     int PC;
-    int thread_id;
+    int threadie_id;
+    int execution_cycles;
+    int execution_switches;
 };
 
 /**
@@ -26,7 +29,9 @@ struct PCB{
 class master_thread
 {
 public:
-    int current_threadie = -1;
+    int current_threadie_id = -1; ///<Identificador del hilillo actualmente en ejecucion
+    int current_threadie_execution_cycles; ///<Cantidad de ciclos que lleva en ejecucion del hilillo actualmente en ejecucion
+    int current_threadie_execution_switches; ///<Cantidad de cambios de contexto a ejecucion del hilillo actualmente en ejecucion
     int end_of_program=0;///<Bandera que controla si aun quedan hilos por correr
     int threadie_finished=0;///<Se usa para saber si el cambio de contexto fue por final de hilillo o final de quantum
     int swt_ctxt_flg=0;///<Bandera que indica si el quantum terminó
@@ -36,6 +41,7 @@ public:
     int overwrite_cycles=2; ///<Contador de cuantas instrucciones se van a sobreescribir en caso de branch tomado
     int thread_id=0;///<Identificador del thread
     queue<PCB> context_list;///<Cola donde se guardan los contextos
+    list<PCB> final_context_list; ///<Lista de contextos finales de los hilillos que finalizaron ejecucion
 
     if_thread* if_p; ///<Puntero a objeto en el que corre if
     id_thread* id_p;///<Puntero a objeto en el que corre id
@@ -144,6 +150,8 @@ public:
      * @brief reset_variables Se encarga de volver las variables de control pertinentes luego de un cambio de contexto
      */
     void reset_variables();
+
+    void print_final_statistics();
 
 
 
