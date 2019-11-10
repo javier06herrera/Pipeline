@@ -11,15 +11,15 @@
 #include <queue>
 #include <list>
 /**
- * @brief The PCB struct guarda el contexto de un hilillo
+ * @brief El PCB struct guarda el contexto de un hilillo
  */
 struct PCB{
-    int rgstrs[33]={0};
-    int rgstrs_state[33]={0};
-    int PC;
-    int threadie_id;
-    int execution_cycles;
-    int execution_switches;
+    int rgstrs[33]={0};///<Vector donde se guardan los registros del contexto
+    int rgstrs_state[33]={0};///<Vector donde se guardan el estado de los registros del contexto
+    int PC;///<Se guarda el PC por el que va el hilo
+    int threadie_id;///<Se guarda el id del hilillo para las estadisticas
+    int execution_cycles;///<Numero total de ciclos ejecutados, incluye los NOP
+    int execution_switches;///<Veces que se le hizo cambio de contecto a un hilillo
 };
 
 /**
@@ -150,6 +150,13 @@ public:
      * @brief reset_variables Se encarga de volver las variables de control pertinentes luego de un cambio de contexto
      */
     void reset_variables();
+    /**
+     * @brief print_final_statistics imprime todas las estadisticas que se generan al final del programa luego de haber concluido.
+     *Memoria de datos
+     * Cache de datos
+     * Tasas de fallos
+     * contenido del pcb
+     */
 
     void print_final_statistics();
 

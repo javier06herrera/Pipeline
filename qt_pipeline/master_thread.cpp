@@ -7,7 +7,8 @@ master_thread::master_thread()
 
 }
 
-void master_thread::run(){
+void master_thread::run()
+{
     read_threadies(if_p->intr_mem);
     init_mail_inboxes();
     final_bar->Wait(); //Aqui estan esperando todos los threads a que se les inicialice sus valores
@@ -23,8 +24,9 @@ void master_thread::run(){
 void master_thread::read_threadies(int *instructionVector)
 {
     int vecCounter = 0;
-    for (int i = 0; i < 7; i++) {
-        //No tocar
+    for (int i = 0; i < 7; i++)
+    {
+        //Esta seccion se encarga de crear los contextos iniciales
         //*********************************************
         PCB* context=new PCB();
         context->PC=vecCounter;
@@ -33,7 +35,6 @@ void master_thread::read_threadies(int *instructionVector)
         context->execution_switches = 0;
         context_list.push(*context);
         //*********************************************
-
 
         string filename = "HilillosPruebaFinal/" + to_string(i) + ".txt";
         ifstream infile(filename);
@@ -83,7 +84,8 @@ void master_thread::execute_phase()
     deliver_if();
     current_threadie_execution_cycles++;
     //Pregunta si hay un cambio de contexto que aplicar
-    if(wb_p->input_box[0]==3){
+    if(wb_p->input_box[0]==3)
+    {
         //Decide que escenario de cambio de contexto es
         if(threadie_finished)
             switch_context(1);
@@ -127,15 +129,17 @@ void master_thread::deliver_ex()
         return;
     /*Si el branch resulto verdadero se le debe pasar por dos ciclos NOPs para simular los retrasos de las
     dos instrucciones malas*/
-    if(ex_p->branch_result){
+    //El overwrite cycles va primero ya que solo se va cumplir la condicion si pasa por el elseif primero
+    if(overwrite_cycles<2)
+    {
+        pass_NOP(1,ex_p->input_box);//Estos NOP si cuentan, son los nop generados por un branch tomado
+        overwrite_cycles++;
+    }
+    else if(ex_p->branch_result)//Se pregunta si hubo branch tomado
+    {
         update_op_cod(id_p->output_box,ex_p->input_box);//Se pasa la instruccion branch en el mismo ciclo que se detecta que fue tomado
         overwrite_cycles=0;
         ex_p->branch_result=false;
-    }
-    else if(overwrite_cycles<2)
-    {
-        pass_NOP(1,ex_p->input_box);//Estos NOP si cuentan
-        overwrite_cycles++;
     }
     else
     {
