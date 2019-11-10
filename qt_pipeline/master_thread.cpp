@@ -28,7 +28,9 @@ void master_thread::read_threadies(int *instructionVector)
         //*********************************************
         PCB* context=new PCB();
         context->PC=vecCounter;
-        context->thread_id=i;
+        context->threadie_id=i;
+        context->execution_cycles = 0;
+        context->execution_switches = 0;
         context_list.push(*context);
         //*********************************************
 
@@ -79,6 +81,7 @@ void master_thread::execute_phase()
     deliver_ex();
     deliver_id();
     deliver_if();
+    current_threadie_execution_cycles++;
     //Pregunta si hay un cambio de contexto que aplicar
     if(wb_p->input_box[0]==3){
         //Decide que escenario de cambio de contexto es
@@ -196,7 +199,21 @@ void master_thread::pass_NOP(int accountableNOP, int *dest_mail_box)
 
 int master_thread::switch_context(int type)
 {
+    if(threadie_finished){ //Si el hilillo en ejecucion ya termino, guardar el PCB final para imprimirlo despues como estadistica
+        PCB* final_context = new PCB();
+        for(int i=0; i<33; i++){
+            final_context->rgstrs[i] = id_p->rgstrs[i];
+            final_context->rgstrs_state[i]=id_p->rgstrs_state[i];
+        }
+        final_context->PC = if_p->pc;
+        final_context->threadie_id=current_threadie_id;
+        final_context->execution_cycles = current_threadie_execution_cycles;
+        final_context->execution_switches = current_threadie_execution_switches;
+        final_context_list.push_front(*final_context);
+    }
+
     reset_variables();
+
     if(type==0){
         PCB* old_context=new PCB();
         for(int i=0; i<33; i++){
@@ -204,7 +221,10 @@ int master_thread::switch_context(int type)
             old_context->rgstrs_state[i]=id_p->rgstrs_state[i];
         }
         old_context->PC=if_p->pc;
-        old_context->thread_id=current_threadie;
+        old_context->threadie_id=current_threadie_id;
+        old_context->execution_cycles = current_threadie_execution_cycles;
+        old_context->execution_switches = current_threadie_execution_switches;
+
         context_list.push(*old_context);
     }
     if(!context_list.empty()){
@@ -215,7 +235,10 @@ int master_thread::switch_context(int type)
         }
         id_p->rgstrs[32]=-1;
         if_p->pc=new_context.PC;
-        current_threadie=new_context.thread_id;
+        current_threadie_id=new_context.threadie_id;
+        current_threadie_execution_cycles = new_context.execution_cycles;
+        current_threadie_execution_switches = new_context.execution_switches + 1;
+
         context_list.pop();
         return 0;
     }else{
@@ -238,6 +261,27 @@ void master_thread::reset_variables()
     if_p->swt_ctxt_flg=0;
     threadie_finished=0;
     if_p->sent=0;
+    wb_p->clock_ticks = 0;
+}
+
+void master_thread::print_final_statistics(){
+    printf("\nFinal State Shared Data Memory\n----------------------------------------------------\n");
+    printf("Block|\tWord 0|\tWord 1|\tWord 2|\tWord 3\n");
+    for (int i = 0 ; i < 96 ; i+=4){ //Estado final de la memoria compartida de datos
+        int block = i/4;
+        int word0 = mem_p->data_mem[i];
+        int word1 = mem_p->data_mem[i+1];
+        int word2 = mem_p->data_mem[i+2];
+        int word3 = mem_p->data_mem[i+3];
+        printf("%d\t%d\t%d\t%d\t%d\n" , block, word0, word1, word2, word3 );
+    }
+    printf("\n----------------------------------------------------\n");
+
+    printf("\nFinal State Data Cache\n----------------------------------------------------\n");
+    printf("Block|\tWord 0|\tWord 1|\tWord 2|\tWord 3\n");
+    for (int i = 0 ; i < 16 ; i+=4){//Estado final de la cache de datos
+        int block = mem_p->block_id_dta_che[i/4]
+    }
 }
 
 
