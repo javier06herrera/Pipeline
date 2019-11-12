@@ -79,7 +79,7 @@ public:
     \param num_blk: Numero de bloque de la instrucción.
     \param num_word: Número de palabra de la instrucción.
     */
-    void resolve_fault(int num_blk, int num_word);
+    void resolve_fault(int num_blk);
     /**
     \brief exists: Verifica si el bloque está cargado en la caché de instrucciones.
     \param num_blk: Numero de bloque a comprobar.

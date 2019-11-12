@@ -20,9 +20,11 @@ void id_thread::run(){
 
 int id_thread::instr_decode(){
     if (input_box[4]) {
+        wb_id_coord->Wait();
         output_box[4]=1;
         return 0;
     }
+
     switch (input_box[0]) { //Codigo de operacion
     case 1:
         send_NOP(1);
@@ -255,7 +257,6 @@ void id_thread::send_NOP(int type){
 }
 
 int id_thread::load_instr(){
-    wb_id_coord->Wait();
     for (int i = 0; i < 4; i++) {
         output_box[i] = input_box[i];
     }

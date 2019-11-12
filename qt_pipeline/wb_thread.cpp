@@ -42,6 +42,7 @@ void wb_thread::execute_pahse()
         lw();
         break;
     case 37: //Sw
+        cout<<"Aqui"<<endl;
         sw();
         break;
     case 99: //Beq

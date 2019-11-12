@@ -8,6 +8,7 @@ void if_thread::run(){
     final_bar->Wait();
     while (!end_of_program)
     {
+        //printf("Aqui");
         instr_fetch();
         master_bar->Wait();
         final_bar->Wait();
@@ -16,12 +17,10 @@ void if_thread::run(){
 
 int if_thread::instr_fetch(){
     int branch = branch_cmp();
-
     if (fail_cycle && !branch){
         if(fail_cycle==48){
             int num_blk = addr_to_block(pc);
-            int num_word = addr_to_word(pc);
-            resolve_fault(num_blk,num_word);
+            resolve_fault(num_blk);
         }
         work_fail();
         //printf("\n fail cycle %d %d %d\n",fail_cycle, input_box[0], swt_ctxt_flg );
@@ -53,9 +52,8 @@ int if_thread::instr_fetch(){
 
 
     int num_blk = addr_to_block(pc);
-
     int num_word = addr_to_word(pc);
-    printf("\nBlock: %d,  Word: %d\n", num_blk,num_word);
+    //printf("\nBlock: %d,  Word: %d\n", num_blk,num_word);
     if (exists(num_blk)) {
         extract_from_che(num_blk, num_word);
         output_box[4]=pc;
@@ -104,7 +102,7 @@ void if_thread::extract_from_che(int num_blk, int num_word){
     }
 }
 
-void if_thread::resolve_fault(int num_blk, int num_word){
+void if_thread::resolve_fault(int num_blk){
     int num_blk_mem = num_blk*16;
 
     int num_blk_che = num_blk%4;

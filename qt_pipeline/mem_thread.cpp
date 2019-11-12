@@ -55,6 +55,7 @@ void mem_thread::loadBlockToCache(int address){
 
 void mem_thread::executePhase(){
     if(in_cache_fail_load || in_cache_fail_store){
+
         if(in_cache_fail_load){
             if(cache_fail_cycles < 48){
                 cache_fail_cycles++;
@@ -125,10 +126,12 @@ void mem_thread::executePhase(){
         default: //FIN o NOP
             //cout << "No operation executed in MEM" << endl;
             passNOPsToWB(1);
+            break;
         }
         //Se deben pasar los NOP en el primer ciclo en el que se identifica el fallo
         //Para que la instruccion no avance
-        if(in_cache_fail_load||in_cache_fail_load)
+
+        if(in_cache_fail_store||in_cache_fail_load)
         {
             passNOPsToWB(1);
         }
