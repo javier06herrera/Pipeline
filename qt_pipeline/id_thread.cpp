@@ -24,51 +24,54 @@ int id_thread::instr_decode(){
         return 0;
     }
     switch (input_box[0]) { //Codigo de operacion
-        case 3:
-            send_NOP(3); //Nop de cambio de contexto
-            break;
-        case 19: //Addi
-            addi();
-            break;
-        case 71: //Add
-            op_arithm();
-            break;
-        case 83: //Sub
-            op_arithm();
-            break;
-        case 72: //Mul
-            op_arithm();
-            break;
-        case 56: //Div
-            op_arithm();
-            break;
-        case 5:  //Lw
-            lw();
-            break;
-        case 37: //Sw
-            sw();
-            break;
-        case 99: //Beq
-            branch();
-            break;
-        case 100: //Bne
-            branch();
-            break;
-        case 51: //Lr
-            lr();
-            break;
-        case 52: //Sc
-            sc();
-            break;
-        case 111: //Jal
-            jal();
-            break;
-        case 103: //Jalr
-            jalr();
-            break;
-        case 999: //FIN o NOP
-            load_instr();
-            break;
+    case 1:
+        send_NOP(1);
+        break;
+    case 3:
+        send_NOP(3); //Nop de cambio de contexto
+        break;
+    case 19: //Addi
+        addi();
+        break;
+    case 71: //Add
+        op_arithm();
+        break;
+    case 83: //Sub
+        op_arithm();
+        break;
+    case 72: //Mul
+        op_arithm();
+        break;
+    case 56: //Div
+        op_arithm();
+        break;
+    case 5:  //Lw
+        lw();
+        break;
+    case 37: //Sw
+        sw();
+        break;
+    case 99: //Beq
+        branch();
+        break;
+    case 100: //Bne
+        branch();
+        break;
+    case 51: //Lr
+        lr();
+        break;
+    case 52: //Sc
+        sc();
+        break;
+    case 111: //Jal
+        jal();
+        break;
+    case 103: //Jalr
+        jalr();
+        break;
+    case 999: //FIN o NOP
+        load_instr();
+        break;
     }
     return 1;
 }
@@ -243,29 +246,16 @@ void id_thread::use_rgstr(int rgstr){
 }
 
 void id_thread::send_NOP(int type){
-    if(type==1){
-        output_box[0]=1;
+        wb_id_coord->Wait();
+        output_box[0]=type;
         output_box[1]=0;
         output_box[2]=0;
         output_box[3]=0;
-    }
-    else if(type==2)
-    {
-        output_box[0]=2;
-        output_box[1]=0;
-        output_box[2]=0;
-        output_box[3]=0;
-    }
-    else
-    {
-        output_box[0]=3;
-        output_box[1]=0;
-        output_box[2]=0;
-        output_box[3]=0;
-    }
+
 }
 
 int id_thread::load_instr(){
+    wb_id_coord->Wait();
     for (int i = 0; i < 4; i++) {
         output_box[i] = input_box[i];
     }

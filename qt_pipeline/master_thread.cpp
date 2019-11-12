@@ -18,7 +18,7 @@ void master_thread::run()
     {
         master_bar->Wait();
         execute_phase();
-        print_mailboxes();
+        //print_mailboxes();
         final_bar->Wait();
     }
 
@@ -110,7 +110,7 @@ void master_thread::deliver_if()
     }
     if(if_p->input_box[0])
     {
-        if_p->input_box[1]=-1;//Como ex esta detenido el master es el que le pasa el -1
+        if_p->input_box[1]=-1;//Como ex esta detenido el master es el que le pasa el -1 en el branch
         return;
     }
     if_p->input_box[1]=ex_p->output_box[4];
@@ -349,10 +349,31 @@ void master_thread::upld_frst_ctxt()
 
 void master_thread::print_mailboxes()
 {
-    printf("Buzon entrada IF: Estado ID:%d , PC Branch:%d\n", if_p->input_box[0], if_p->input_box[1]);
+    printf("Buzon entrada IF: \nEstado ID:%d , PC Branch:%d %d\n", if_p->input_box[0], if_p->input_box[1],contador);
     printf("PC: %d\n", if_p->pc);
-    printf("Buzon salida IF: Instruccion:%d|%d|%d|%d , PC:%d\n", if_p->output_box[0],if_p->output_box[1],if_p->output_box[2],if_p->output_box[3], if_p->input_box[4]);
+    printf("Buzon salida IF: \nInstruccion:%d|%d|%d|%d , PC:%d\n", if_p->output_box[0],if_p->output_box[1],if_p->output_box[2],if_p->output_box[3], if_p->input_box[4]);
     printf("------------------------------\n");
+    printf("Buzon entrada ID: \nInstruccion:%d %d %d %d , Estado EX:%d PC_normal: %d\n", id_p->input_box[0],
+           id_p->input_box[1],id_p->input_box[2],id_p->input_box[3], id_p->input_box[4],id_p->input_box[5]);
+    printf("Buzon salida ID: \nInstruccion:%d %d %d %d | Estado ID:%d | A:%d | B:%d | Imm:%d | PcBranch:%d | RL:%d\n", id_p->output_box[0],id_p->output_box[1],id_p->output_box[2],id_p->output_box[3], id_p->input_box[4]
+           , id_p->output_box[5],id_p->output_box[6],id_p->output_box[7],id_p->output_box[8], id_p->output_box[9]);
+    printf("------------------------------\n");
+    printf("Buzon entrada EX: \nInstruccion:%d %d %d %d | A:%d | B:%d | Imm:%d | PcBranch:%d | Estado Mem:%d | RL:%d\n", ex_p->input_box[0],ex_p->input_box[1],ex_p->input_box[2],ex_p->input_box[3], ex_p->input_box[4]
+           , ex_p->input_box[5],ex_p->input_box[6],ex_p->input_box[7],ex_p->input_box[8], ex_p->input_box[9]);
+    printf("Buzon salida EX: \nInstruccion:%d %d %d %d | PcBranch:%d | ALU:%d | B:%d| Estado EX:%d\n", ex_p->output_box[0],ex_p->output_box[1],ex_p->output_box[2],ex_p->output_box[3], ex_p->input_box[4]
+           , ex_p->output_box[5],ex_p->output_box[6],ex_p->output_box[7]);
+    printf("------------------------------\n");
+    printf("Buzon entrada mem: \nInstruccion:%d %d %d %d | ALU:%d | B:%d \n", mem_p->input_box[0],mem_p->input_box[1],mem_p->input_box[2],mem_p->input_box[3], mem_p->input_box[4]
+           , mem_p->input_box[5]);
+    printf("Buzon salida mem: \nInstruccion:%d %d %d %d | ALU:%d | LMD:%d| Estado mem:%d\n", mem_p->output_box[0],mem_p->output_box[1],mem_p->output_box[2],mem_p->output_box[3], mem_p->input_box[4]
+           , mem_p->output_box[5],mem_p->output_box[6]);
+    printf("------------------------------\n");
+    printf("Buzon entrada wb: \nInstruccion:%d %d %d %d | ALU:%d | LMD:%d \n", wb_p->input_box[0],wb_p->input_box[1],wb_p->input_box[2],wb_p->input_box[3], wb_p->input_box[4]
+           , wb_p->input_box[5]);
+    printf("------------------------------\n");
+
+
+    contador++;
 }
 
 

@@ -63,6 +63,7 @@ void wb_thread::execute_pahse()
         jalr();
         break;
     default: //FIN o NOP
+        wb_id_coord->Wait();
         //cout << "No operation executed in Wb" << endl;
         break;
     }

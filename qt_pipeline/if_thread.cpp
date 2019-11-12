@@ -24,6 +24,7 @@ int if_thread::instr_fetch(){
             resolve_fault(num_blk,num_word);
         }
         work_fail();
+        //printf("\n fail cycle %d %d %d\n",fail_cycle, input_box[0], swt_ctxt_flg );
         return 0;
     }
 
@@ -114,10 +115,11 @@ void if_thread::resolve_fault(int num_blk, int num_word){
 
     for (int i = 0; i < 16; i++) {
         intr_che[num_blk_che] = intr_mem[num_blk_mem];
-        printf(" %d ", intr_mem[num_blk_mem]);
+        //printf(" %d ", intr_mem[num_blk_mem]);
         num_blk_che ++;
         num_blk_mem ++;
     }
+   // printf("\n");
     mem_request++;
 }
 
@@ -125,7 +127,7 @@ int if_thread::exists(int num_blk){
     if (block_id_intr_che[num_blk%4] == num_blk) {
             return 1;
     }
-    printf("Bloque no esta aqui");
+    //printf("Bloque no esta aqui");
     return 0;
 }
 

@@ -29,6 +29,9 @@ struct PCB{
 class master_thread
 {
 public:
+
+    int contador;
+
     int current_threadie_id = -1; ///<Identificador del hilillo actualmente en ejecucion
     int current_threadie_execution_cycles; ///<Cantidad de ciclos que lleva en ejecucion del hilillo actualmente en ejecucion
     int current_threadie_execution_switches; ///<Cantidad de cambios de contexto a ejecucion del hilillo actualmente en ejecucion
