@@ -18,7 +18,7 @@ void if_thread::run(){
 int if_thread::instr_fetch(){
     int branch = branch_cmp();
     if (fail_cycle && !branch){
-        if(fail_cycle==48){
+        if(fail_cycle==47){
             int num_blk = addr_to_block(pc);
             resolve_fault(num_blk);
         }
@@ -27,7 +27,7 @@ int if_thread::instr_fetch(){
         return 0;
     }
 
-    if (input_box[0]) {
+    if (input_box[0]>0) {
         return 0;
     }
 
@@ -53,7 +53,7 @@ int if_thread::instr_fetch(){
 
     int num_blk = addr_to_block(pc);
     int num_word = addr_to_word(pc);
-    //printf("\nBlock: %d,  Word: %d\n", num_blk,num_word);
+    printf("\nBlock: %d,  Word: %d\n", num_blk,num_word);
     if (exists(num_blk)) {
         extract_from_che(num_blk, num_word);
         output_box[4]=pc;
@@ -75,7 +75,7 @@ int if_thread::branch_cmp(){
 }
 
 void if_thread::activate_fail(){
-    fail_cycle = 48;
+    fail_cycle = 47;
     send_NOP(1);
     che_fails++;
 }

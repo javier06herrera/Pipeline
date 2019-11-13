@@ -79,7 +79,7 @@ void mem_thread::executePhase(){
             }
         }
     }
-
+    //Permite que en el mismo ciclo en que se restablecen las banderas, se resuelva la instruccion
     if(!in_cache_fail_load && !in_cache_fail_store){
 
         switch (input_box[0]) { //Codigo de operacion

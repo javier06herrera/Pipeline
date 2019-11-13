@@ -166,7 +166,7 @@ public:
      */
     void upld_frst_ctxt();
 
-    void print_mailboxes();
+    void print_mailboxes(int input);
 
 
 

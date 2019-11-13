@@ -18,7 +18,7 @@ void master_thread::run()
     {
         master_bar->Wait();
         execute_phase();
-        print_mailboxes();
+        print_mailboxes(65);
         final_bar->Wait();
     }
 
@@ -102,18 +102,20 @@ void master_thread::execute_phase()
 
 void master_thread::deliver_if()
 {
-    //Este primer if es necesario para que en el mismo ciclo en que se detiene mem, IF no avance
-    if(ex_p->input_box[8])
-        if_p->input_box[0]=id_p->input_box[4];//Se le pasa el estado de MEM
+    //Este primer if corrige desfaces de ciclo en el reconcimiento de fallos en mem
+    if(mem_p->output_box[6])
+        if_p->input_box[0]=2;
+    else if(id_p->output_box[4]==1)
+        if_p->input_box[0]=1;
     else
-        if_p->input_box[0]= id_p->output_box[4]; //Se le pasa el estado de ID
+        if_p->input_box[0]= 0; //Se le pasa el estado de ID
 
     if(if_p->output_box[0]==999)//Pregunta si la ultima instruccion leida en if es la ultima del hilillo
     {
         if_p->swt_ctxt_flg=1;
         threadie_finished=1;
     }
-    if(if_p->input_box[0])
+    if(if_p->input_box[0]>0)
     {
         if_p->input_box[1]=-1;//Como ex esta detenido el master es el que le pasa el -1 en el branch
         return;
@@ -134,7 +136,7 @@ void master_thread::deliver_id()
 void master_thread::deliver_ex()
 {
     ex_p->input_box[8]=mem_p->output_box[6];//Siempre hay que pasarle el estado de mem para verificar si puede avanzar
-
+    ex_p->output_box[7]=mem_p->output_box[6];
     //Verifica si mem esta detenido por un fallo de cache
     if(ex_p->input_box[8])
         return;
@@ -167,8 +169,8 @@ void master_thread::deliver_ex()
 void master_thread::deliver_mem()
 {
     //Si mem esta en fallo de cache no se le pasan nuevas instrucciones
-    //if(mem_p->in_cache_fail_load || mem_p->in_cache_fail_store)
-        //return;
+    if(mem_p->in_cache_fail_load || mem_p->in_cache_fail_store)
+        return;
     update_op_cod(ex_p->output_box,mem_p->input_box);//Se pasa la nueva instruccion
     mem_p->input_box[4]=ex_p->output_box[5];//Trae el ALU OUT
     mem_p->input_box[5]=ex_p->output_box[6];//Trae al operador B
@@ -353,15 +355,15 @@ void master_thread::upld_frst_ctxt()
     context_list.pop_front();
 }
 
-void master_thread::print_mailboxes()
+void master_thread::print_mailboxes(int input)
 {
     printf("Buzon entrada IF: %d\nEstado ID:%d , PC Branch:%d\n", contador,if_p->input_box[0], if_p->input_box[1]);
     printf("PC: %d\n", if_p->pc);
-    printf("Buzon salida IF: \nInstruccion:%d|%d|%d|%d , PC:%d\n", if_p->output_box[0],if_p->output_box[1],if_p->output_box[2],if_p->output_box[3], if_p->output_box[4]);
+    printf("Buzon salida IF: %d\nInstruccion:%d|%d|%d|%d , PC:%d\n", contador, if_p->output_box[0],if_p->output_box[1],if_p->output_box[2],if_p->output_box[3], if_p->output_box[4]);
     printf("------------------------------\n");
     printf("Buzon entrada ID: %d\nInstruccion:%d %d %d %d , Estado EX:%d PC_normal: %d\n", contador, id_p->input_box[0],
            id_p->input_box[1],id_p->input_box[2],id_p->input_box[3], id_p->input_box[4],id_p->input_box[5]);
-    printf("Buzon salida ID: %d\nInstruccion:%d %d %d %d | Estado ID:%d | A:%d | B:%d | Imm:%d | PcBranch:%d | RL:%d\n",contador, id_p->output_box[0],id_p->output_box[1],id_p->output_box[2],id_p->output_box[3], id_p->input_box[4]
+    printf("Buzon salida ID: %d\nInstruccion:%d %d %d %d | Estado ID:%d | A:%d | B:%d | Imm:%d | PcBranch:%d | RL:%d\n",contador, id_p->output_box[0],id_p->output_box[1],id_p->output_box[2],id_p->output_box[3], id_p->output_box[4]
            , id_p->output_box[5],id_p->output_box[6],id_p->output_box[7],id_p->output_box[8], id_p->output_box[9]);
     printf("------------------------------\n");
     printf("Buzon entrada EX: %d\nInstruccion:%d %d %d %d | A:%d | B:%d | Imm:%d | PcBranch:%d | Estado Mem:%d | RL:%d\n", contador,ex_p->input_box[0],ex_p->input_box[1],ex_p->input_box[2],ex_p->input_box[3], ex_p->input_box[4]
@@ -380,6 +382,9 @@ void master_thread::print_mailboxes()
 
 
     contador++;
+    if(contador==input){
+        final_bar->Wait();
+    }
 }
 
 

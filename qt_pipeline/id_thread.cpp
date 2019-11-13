@@ -21,7 +21,7 @@ void id_thread::run(){
 int id_thread::instr_decode(){
     if (input_box[4]) {
         wb_id_coord->Wait();
-        output_box[4]=1;
+        output_box[4]=2;
         return 0;
     }
 
@@ -99,7 +99,6 @@ void id_thread::jal(){
     wb_id_coord->Wait();
     if (check_status(input_box[2])) {
         send_NOP(1);
-        //Estado de ID bien
         output_box[4]=1;
         return;
     }
