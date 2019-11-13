@@ -9,7 +9,7 @@ void mem_thread::run(){
     final_bar->Wait();
     while (!end_of_program) {
         executePhase();
-         cout<<in_cache_fail_load<< in_cache_fail_store<<endl;
+        cout<<in_cache_fail_load<<in_cache_fail_store<<endl;
         master_bar->Wait();
         final_bar->Wait();
     }
@@ -56,7 +56,6 @@ void mem_thread::loadBlockToCache(int address){
 
 void mem_thread::executePhase(){
     if(in_cache_fail_load || in_cache_fail_store){
-               cout<<"Aqui"<<endl;
         if(in_cache_fail_load){
             if(cache_fail_cycles < 47){
                 cache_fail_cycles++;
@@ -66,6 +65,7 @@ void mem_thread::executePhase(){
                 in_cache_fail_load = false;
                 cache_fail_cycles = 0;
                 output_box[6] = 0;
+                passInstrToWB();
             }
         }else{
             if(cache_fail_cycles < 11){
@@ -76,12 +76,11 @@ void mem_thread::executePhase(){
                 in_cache_fail_store = false;
                 cache_fail_cycles = 0;
                 output_box[6] = 0;
+                passInstrToWB();
             }
         }
     }
-
-    if(!in_cache_fail_load && !in_cache_fail_store){
-
+    else{
         switch (input_box[0]) { //Codigo de operacion
         case 2:
             passNOPsToWB(2);//NOP de branch
@@ -184,7 +183,6 @@ void mem_thread::lw(){
 void mem_thread::sw(){
     int address = input_box[4];
     if(!isBlockInDataCache(address)){ //Cache miss
-                                 cout<<"Aqui2"<<endl;
         in_cache_fail_store = true;
         write_che_fails++;
         output_box[6] = 1;

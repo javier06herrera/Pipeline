@@ -10,6 +10,7 @@ void if_thread::run(){
     {
         //printf("Aqui");
         instr_fetch();
+        //cout<<fail_cycle<<endl;
         master_bar->Wait();
         final_bar->Wait();
     }
@@ -40,7 +41,7 @@ int if_thread::instr_fetch(){
         if(!sent)
         {
             send_NOP(3);
-            sent++;
+            sent=1;
             return 0;
         }
         else

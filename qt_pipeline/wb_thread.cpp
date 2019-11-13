@@ -10,6 +10,7 @@ void wb_thread::run(){
     final_bar->Wait();
     while (!end_of_program) {
         execute_pahse();
+
         master_bar->Wait();
         final_bar->Wait();
     }
@@ -42,7 +43,7 @@ void wb_thread::execute_pahse()
         lw();
         break;
     case 37: //Sw
-        cout<<"Aqui"<<endl;
+        //cout<<"Aqui"<<endl;
         sw();
         break;
     case 99: //Beq

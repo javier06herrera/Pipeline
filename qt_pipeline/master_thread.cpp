@@ -18,7 +18,8 @@ void master_thread::run()
     {
         master_bar->Wait();
         execute_phase();
-        print_mailboxes(65);
+        cout<<wb_p->clock_ticks<<endl;
+        print_mailboxes(215);
         final_bar->Wait();
     }
 
@@ -93,7 +94,9 @@ void master_thread::execute_phase()
     {
         //Decide que escenario de cambio de contexto es
         if(threadie_finished)
+        {
             switch_context(1);
+        }
         else
             switch_context(0);
     }
@@ -380,11 +383,11 @@ void master_thread::print_mailboxes(int input)
            , wb_p->input_box[5]);
     printf("------------------------------\n");
 
-
-    contador++;
     if(contador==input){
         final_bar->Wait();
     }
+    contador++;
+
 }
 
 

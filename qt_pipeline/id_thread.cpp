@@ -72,6 +72,7 @@ int id_thread::instr_decode(){
         jalr();
         break;
     case 999: //FIN o NOP
+        wb_id_coord->Wait();
         load_instr();
         break;
     }
