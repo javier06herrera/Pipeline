@@ -19,7 +19,7 @@ void master_thread::run()
         master_bar->Wait();
         execute_phase();
         cout<<wb_p->clock_ticks<<endl;
-        print_mailboxes(215);
+        print_mailboxes(265);
         final_bar->Wait();
     }
 
@@ -130,6 +130,8 @@ void master_thread::deliver_id()
 {
     id_p->input_box[4]=ex_p->input_box[8];//Siempre hay que pasarle el estado de ex para verificar si puede avanzar, pero la informacion esta en el input box de ex
     if(ex_p->input_box[8])// Se comprueba el estado de ex para saber si escribir buzones o no
+        return;
+    if(id_p->output_box[4]==1)
         return;
 
     update_op_cod(if_p->output_box,id_p->input_box);

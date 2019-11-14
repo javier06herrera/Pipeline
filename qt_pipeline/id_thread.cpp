@@ -19,7 +19,7 @@ void id_thread::run(){
 }
 
 int id_thread::instr_decode(){
-    if (input_box[4]) {
+    if (input_box[4] && output_box[4]!=1) {
         wb_id_coord->Wait();
         output_box[4]=2;
         return 0;
@@ -27,9 +27,11 @@ int id_thread::instr_decode(){
 
     switch (input_box[0]) { //Codigo de operacion
     case 1:
+        wb_id_coord->Wait();
         send_NOP(1);
         break;
     case 3:
+        wb_id_coord->Wait();
         send_NOP(3); //Nop de cambio de contexto
         break;
     case 19: //Addi
@@ -248,7 +250,6 @@ void id_thread::use_rgstr(int rgstr){
 }
 
 void id_thread::send_NOP(int type){
-        wb_id_coord->Wait();
         output_box[0]=type;
         output_box[1]=0;
         output_box[2]=0;

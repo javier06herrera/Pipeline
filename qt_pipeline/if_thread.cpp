@@ -54,7 +54,8 @@ int if_thread::instr_fetch(){
 
     int num_blk = addr_to_block(pc);
     int num_word = addr_to_word(pc);
-    printf("\nBlock: %d,  Word: %d\n", num_blk,num_word);
+    //printf("\nBlock: %d,  Word: %d\n", num_blk,num_word);
+    cout<<"Block: "<<num_blk<<" "<<"Word: "<<num_word<<endl;
     if (exists(num_blk)) {
         extract_from_che(num_blk, num_word);
         output_box[4]=pc;
