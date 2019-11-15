@@ -193,6 +193,7 @@ void mem_thread::sw(){
 
         data_che[getIndexInDataCache(address)] = input_box[5];
         data_mem[getIndexInDataMemory(address)] = input_box[5];//Write-Through
+        output_box[6] = 1;
     }
 
     write_mem_rqst++;

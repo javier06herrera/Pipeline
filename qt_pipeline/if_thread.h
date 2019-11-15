@@ -3,6 +3,7 @@
 #include "thread"
 #include <unistd.h>
 #include <iostream>
+#include <unistd.h>
 #include "barrier.h"
 
 /**

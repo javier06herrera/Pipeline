@@ -8,6 +8,7 @@
 #include "wb_thread.h"
 #include "barrier.h"
 #include <iostream>
+#include <unistd.h>
 #include <queue>
 #include <list>
 /**

@@ -19,7 +19,7 @@ void master_thread::run()
         master_bar->Wait();
         execute_phase();
         cout<<wb_p->clock_ticks<<endl;
-        print_mailboxes(265);
+        print_mailboxes(730);
         final_bar->Wait();
     }
 
@@ -92,6 +92,8 @@ void master_thread::execute_phase()
     //Pregunta si hay un cambio de contexto que aplicar
     if(wb_p->input_box[0]==3)
     {
+        cout << "***************" << "CAMBIO DE CONTEXTO" << "************" << endl;
+
         //Decide que escenario de cambio de contexto es
         if(threadie_finished)
         {
@@ -99,6 +101,8 @@ void master_thread::execute_phase()
         }
         else
             switch_context(0);
+        cout << "***************" << "SALÍ  DEL CAMBIO DE CONTETO" << "************" << endl;
+        sleep(1);
     }
 
 }
@@ -222,6 +226,7 @@ void master_thread::pass_NOP(int accountableNOP, int *dest_mail_box)
 int master_thread::switch_context(int type)
 {
     if(threadie_finished){ //Si el hilillo en ejecucion ya termino, guardar el PCB final para imprimirlo despues como estadistica
+        cout << "FINAL DE HILILLO" << endl;
         PCB* final_context = new PCB();
         for(int i=0; i<33; i++){
             final_context->rgstrs[i] = id_p->rgstrs[i];
@@ -237,6 +242,7 @@ int master_thread::switch_context(int type)
     reset_variables();
 
     if(type==0){
+        cout << "FINAL DE QUANTUM" << endl;
         PCB* old_context=new PCB();
         for(int i=0; i<33; i++){
             old_context->rgstrs[i] = id_p->rgstrs[i];
@@ -250,6 +256,7 @@ int master_thread::switch_context(int type)
         context_list.push_back(*old_context);
     }
     if(!context_list.empty()){
+        cout << "SACA NUEVO CONTEXTO" << endl;
         PCB new_context= context_list.front();
         for(int i=0; i<32; i++){
             id_p->rgstrs[i]=new_context.rgstrs[i];
@@ -257,6 +264,8 @@ int master_thread::switch_context(int type)
         }
         id_p->rgstrs[32]=-1;
         if_p->pc=new_context.PC;
+        cout << "SACA NUEVO CONTEXTO" << endl;
+        cout << "\t PC: " << if_p->pc << endl;
         current_threadie_id=new_context.threadie_id;
         current_threadie_execution_cycles = new_context.execution_cycles;
         current_threadie_execution_switches = new_context.execution_switches + 1;

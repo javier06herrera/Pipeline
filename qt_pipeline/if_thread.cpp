@@ -96,8 +96,8 @@ void if_thread::work_fail(){
 }
 
 void if_thread::extract_from_che(int num_blk, int num_word){
-    int num_blk_che = num_blk%4;
-    num_blk_che = num_blk*16;
+    int num_blk_che = num_blk%4; // Número de bloque en la caché
+    num_blk_che = num_blk_che*16; // Posición real del número de bloque en la caché
     num_blk_che =num_blk_che + num_word*4;
     for (int i = num_blk_che; i < num_blk_che+4; i++) {
         output_box[i-num_blk_che] = intr_che[i];
@@ -112,7 +112,6 @@ void if_thread::resolve_fault(int num_blk){
     block_id_intr_che[num_blk_che] = num_blk;
 
     num_blk_che = num_blk_che*16;
-
     for (int i = 0; i < 16; i++) {
         intr_che[num_blk_che] = intr_mem[num_blk_mem];
         //printf(" %d ", intr_mem[num_blk_mem]);
