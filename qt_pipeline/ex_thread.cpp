@@ -147,6 +147,7 @@ void ex_thread::bne(){
 
 void ex_thread::jal(){
     output_box[4] = input_box[7];
+    output_box[5] = input_box[7]-input_box[3];
     branch_result = true;
 }
 

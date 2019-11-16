@@ -143,6 +143,7 @@ void wb_thread::bne(){
 }
 
 void wb_thread::jal(){
+    rgstrs[input_box[1]]=input_box[4];
     rgstrs_state[input_box[1]]--;
     wb_id_coord->Wait();
 }
