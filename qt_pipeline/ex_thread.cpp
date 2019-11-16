@@ -138,7 +138,7 @@ void ex_thread::beq(){
 }
 
 void ex_thread::bne(){
-    cout<<"Branch"<<input_box[4]<<" "<<input_box[5]<<endl;
+    cout<<"BranchNE "<<input_box[4]<<" "<<input_box[5]<<endl;
     if(input_box[4] != input_box[5]){
         branch_result = true;
         output_box[4] = input_box[7];

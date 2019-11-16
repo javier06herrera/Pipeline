@@ -59,8 +59,8 @@ int if_thread::instr_fetch(){
     cout<<"Block: "<<num_blk<<" "<<"Word: "<<num_word<<endl;
     if (exists(num_blk)) {
         extract_from_che(num_blk, num_word);
-        output_box[4]=pc;
         pc = pc + 4;
+        output_box[4]=pc;
         return 1;
     }
     printf("\nOops, estoy en fallo\n");

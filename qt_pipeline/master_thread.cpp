@@ -19,7 +19,7 @@ void master_thread::run()
         master_bar->Wait();
         execute_phase();
         cout<<wb_p->clock_ticks<<endl;
-        print_mailboxes(445);
+        print_mailboxes(450);
         final_bar->Wait();
     }
 
@@ -204,6 +204,7 @@ void master_thread::deliver_wb(){
     if(wb_p->clock_ticks == quantum_value && swt_ctxt_flg==0){
         swt_ctxt_flg=1;
         if_p->swt_ctxt_flg=1;
+        cout << "**********HAY UN CAMBIO DE CONTEXTO*********" << endl;
     }
 }
 
@@ -382,7 +383,7 @@ void master_thread::upld_frst_ctxt()
 void master_thread::print_mailboxes(int input)
 {
     printf("Buzon entrada IF: %d\nEstado ID:%d , PC Branch:%d\n", contador,if_p->input_box[0], if_p->input_box[1]);
-    printf("PC: %d\n", if_p->pc);
+    printf("PC: %d\n", if_p->pc-4);
     printf("Buzon salida IF: %d\nInstruccion:%d|%d|%d|%d , PC:%d\n", contador, if_p->output_box[0],if_p->output_box[1],if_p->output_box[2],if_p->output_box[3], if_p->output_box[4]);
     printf("------------------------------\n");
     printf("Buzon entrada ID: %d\nInstruccion:%d %d %d %d , Estado EX:%d PC_normal: %d\n", contador, id_p->input_box[0],

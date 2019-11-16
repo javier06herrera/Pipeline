@@ -22,6 +22,7 @@ void wb_thread::execute_pahse()
     cpu_clock++;
     if(input_box[0]!=1)
         clock_ticks++;
+        cout << "QUANTUM ACTUAL: " << clock_ticks << endl;
 
     switch (input_box[0]) { //Codigo de operacion
     case 19: //Addi
