@@ -19,7 +19,7 @@ void master_thread::run()
         master_bar->Wait();
         execute_phase();
         cout<<wb_p->clock_ticks<<endl;
-        print_mailboxes(730);
+        print_mailboxes(260);
         final_bar->Wait();
     }
 
@@ -29,7 +29,7 @@ void master_thread::run()
 
 void master_thread::read_threadies(int *instructionVector)
 {
-    int vecCounter = 0;
+    int vecCounter = 384;
     for (int i = 0; i < 7; i++)
     {
         //Esta seccion se encarga de crear los contextos iniciales
@@ -382,7 +382,7 @@ void master_thread::print_mailboxes(int input)
     printf("------------------------------\n");
     printf("Buzon entrada EX: %d\nInstruccion:%d %d %d %d | A:%d | B:%d | Imm:%d | PcBranch:%d | Estado Mem:%d | RL:%d\n", contador,ex_p->input_box[0],ex_p->input_box[1],ex_p->input_box[2],ex_p->input_box[3], ex_p->input_box[4]
            , ex_p->input_box[5],ex_p->input_box[6],ex_p->input_box[7],ex_p->input_box[8], ex_p->input_box[9]);
-    printf("Buzon salida EX: %d\nInstruccion:%d %d %d %d | PcBranch:%d | ALU:%d | B:%d| Estado EX:%d\n",contador, ex_p->output_box[0],ex_p->output_box[1],ex_p->output_box[2],ex_p->output_box[3], ex_p->input_box[4]
+    printf("Buzon salida EX: %d\nInstruccion:%d %d %d %d | PcBranch:%d | ALU:%d | B:%d| Estado EX:%d\n",contador, ex_p->output_box[0],ex_p->output_box[1],ex_p->output_box[2],ex_p->output_box[3], ex_p->output_box[4]
            , ex_p->output_box[5],ex_p->output_box[6],ex_p->output_box[7]);
     printf("------------------------------\n");
     printf("Buzon entrada mem: %d \nInstruccion:%d %d %d %d | ALU:%d | B:%d \n", contador,mem_p->input_box[0],mem_p->input_box[1],mem_p->input_box[2],mem_p->input_box[3], mem_p->input_box[4]

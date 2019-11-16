@@ -26,7 +26,7 @@ public:
     int thread_id=1; ///< Número identificador de hilo.
     int* input_box; ///< Buzon utilizado para recibir pc_branch en el [0] y el nuevo pc en el [1].
     int* output_box; ///< Buzón usado para enviar datos a ID.
-    int pc=0; ///< Guarda el contador de la instrucción a extraer.
+    int pc=384; ///< Guarda el contador de la instrucción a extraer.
     int che_fails=0; ///< Contabiliza la cantidad de fallos de caché que se han generado.
     int mem_request = 0; ///< Contabiliza las solicitudes de acceso a memoria.
 

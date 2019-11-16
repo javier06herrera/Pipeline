@@ -65,6 +65,8 @@ void mem_thread::executePhase(){
                 in_cache_fail_load = false;
                 cache_fail_cycles = 0;
                 output_box[6] = 0;
+                output_box[4]=input_box[4];
+                output_box[5]=data_che[getIndexInDataCache(input_box[4])];
                 passInstrToWB();
             }
         }else{
@@ -173,8 +175,8 @@ void mem_thread::lw(){
         read_che_fails++;
         output_box[6] = 1;
     }
-
     int word = data_che[getIndexInDataCache(address)];
+    cout<<"Registro "<<data_che[getIndexInDataCache(address)]<<endl;
     output_box[5] = word;
 
     read_mem_rqst++;
@@ -203,6 +205,7 @@ void mem_thread::sw(){
 
 void mem_thread::lr(){
     lw();
+    cout<<"Aqui"<<endl;
     output_box[4] = input_box[4];
 }
 
