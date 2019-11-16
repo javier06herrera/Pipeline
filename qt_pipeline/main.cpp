@@ -23,7 +23,8 @@ void init_structures(if_thread* if_p, id_thread* id_p, ex_thread* ex_p, mem_thre
     int* data_mem = new int[96];
     init_vector(data_mem,96,1);
     int* rgstrs=new int[33];
-    init_vector(rgstrs,33,0);
+    init_vector(rgstrs,32,0);
+    rgstrs[32]=-1;
     int* rgstr_state = new int[33];
     init_vector(rgstr_state,33,0);
 
