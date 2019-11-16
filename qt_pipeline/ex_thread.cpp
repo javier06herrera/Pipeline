@@ -128,21 +128,25 @@ void ex_thread::sc(){
 void ex_thread::beq(){
     if(input_box[4] == input_box[5]){
         branch_result = true;
+        output_box[4] = input_box[7];
     }else{
         branch_result = false;
+        output_box[4] = -1;
     }
 
-    output_box[4] = input_box[7];
+
 }
 
 void ex_thread::bne(){
-        cout<<"Branch"<<input_box[4]<<" "<<input_box[5]<<endl;
+    cout<<"Branch"<<input_box[4]<<" "<<input_box[5]<<endl;
     if(input_box[4] != input_box[5]){
         branch_result = true;
+        output_box[4] = input_box[7];
     }else{
         branch_result = false;
+        output_box[4] = -1;
     }
-    output_box[4] = input_box[7];
+
 }
 
 void ex_thread::jal(){

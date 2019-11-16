@@ -17,6 +17,7 @@ void if_thread::run(){
 }
 
 int if_thread::instr_fetch(){
+
     int branch = branch_cmp();
     if (fail_cycle && !branch){
         if(fail_cycle==47){
@@ -78,6 +79,7 @@ int if_thread::branch_cmp(){
 
 void if_thread::activate_fail(){
     fail_cycle = 47;
+    output_box[4]=pc;
     send_NOP(1);
     che_fails++;
 }

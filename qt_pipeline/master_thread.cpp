@@ -19,7 +19,7 @@ void master_thread::run()
         master_bar->Wait();
         execute_phase();
         cout<<wb_p->clock_ticks<<endl;
-        print_mailboxes(260);
+        print_mailboxes(445);
         final_bar->Wait();
     }
 
@@ -35,6 +35,11 @@ void master_thread::read_threadies(int *instructionVector)
         //Esta seccion se encarga de crear los contextos iniciales
         //*********************************************
         PCB* context=new PCB();
+        for(int i=0;i<33;i++)
+            context->rgstrs[i]=0;
+        for(int i=0;i<32;i++)
+            context->rgstrs_state[i]=0;
+        context->rgstrs_state[32]=-1;
         context->PC=vecCounter;
         context->threadie_id=i;
         context->execution_cycles = 0;
@@ -228,6 +233,7 @@ void master_thread::pass_NOP(int accountableNOP, int *dest_mail_box)
 
 int master_thread::switch_context(int type)
 {
+
     if(threadie_finished){ //Si el hilillo en ejecucion ya termino, guardar el PCB final para imprimirlo despues como estadistica
         cout << "FINAL DE HILILLO" << endl;
         PCB* final_context = new PCB();
@@ -364,6 +370,7 @@ void master_thread::upld_frst_ctxt()
     }
 
     id_p->rgstrs[32]=-1;
+    id_p->rgstrs_state[32]=0;
     if_p->pc=new_context.PC;
     current_threadie_id=new_context.threadie_id;
     current_threadie_execution_cycles = new_context.execution_cycles;
