@@ -124,7 +124,7 @@ void mem_thread::executePhase(){
             sc();
             break;
         case 111: //Jal
-            //Jal no hace nada en MEM
+            passALUOutToWB();
             break;
         case 103: //Jalr
             passALUOutToWB();
