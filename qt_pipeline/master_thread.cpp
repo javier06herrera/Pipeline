@@ -154,7 +154,12 @@ void master_thread::deliver_ex()
     //El overwrite cycles va primero ya que solo se va cumplir la condicion si pasa por el elseif primero
     if(overwrite_cycles<2)
     {
-        pass_NOP(1,ex_p->input_box);//Estos NOP si cuentan, son los nop generados por un branch tomado
+        if(swt_ctxt_flg == 1){
+            update_op_cod(id_p->output_box,ex_p->input_box);//Se pasa la instruccion branch en el mismo ciclo que se detecta que fue tomado
+        }else{
+            pass_NOP(1,ex_p->input_box);//Estos NOP si cuentan, son los nop generados por un branch tomado
+        }
+
         overwrite_cycles++;
     }
     else if(ex_p->branch_result)//Se pregunta si hubo branch tomado
@@ -195,8 +200,6 @@ void master_thread::deliver_wb(){
         swt_ctxt_flg=1;
         if_p->swt_ctxt_flg=1;
     }
-
-
 }
 
 void master_thread::update_op_cod(int *source_mail_box, int *dest_mail_box)
