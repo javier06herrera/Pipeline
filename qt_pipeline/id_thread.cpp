@@ -267,7 +267,6 @@ int id_thread::load_instr(){
 int id_thread::check_status(int regist){
 
     if (rgstrs_state[regist]) {
-        cout<<"Registro "<<regist<< "Reservado"<<endl;
         return 1;
     }
     return 0;

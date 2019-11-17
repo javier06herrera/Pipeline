@@ -1,6 +1,7 @@
 #ifndef MEM_THREAD_H
 #define MEM_THREAD_H
 #include "thread"
+#include <unistd.h>
 #include <iostream>
 #include "barrier.h"
 

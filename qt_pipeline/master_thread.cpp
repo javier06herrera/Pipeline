@@ -18,8 +18,7 @@ void master_thread::run()
     {
         master_bar->Wait();
         execute_phase();
-        cout<<wb_p->clock_ticks<<endl;
-        print_mailboxes(7000);
+        //print_mailboxes(7000);
         final_bar->Wait();
     }
 
@@ -97,16 +96,12 @@ void master_thread::execute_phase()
     //Pregunta si hay un cambio de contexto que aplicar
     if(wb_p->input_box[0]==3)
     {
-        cout << "***************" << "CAMBIO DE CONTEXTO" << "************" << endl;
-
-        //Decide que escenario de cambio de contexto es
         if(threadie_finished)
         {
             switch_context(1);
         }
         else
             switch_context(0);
-        cout << "***************" << "SALÍ  DEL CAMBIO DE CONTETO" << "************" << endl;
     }
 
 }
@@ -162,7 +157,12 @@ void master_thread::deliver_ex()
             if(id_p->output_box[0]==1 && if_p->output_box[0]==1){
                 id_p->output_box[0]=3;
             }
-            update_op_cod(id_p->output_box,ex_p->input_box);//Se pasa la instruccion branch en el mismo ciclo que se detecta que fue tomado        
+            if (id_p->output_box[0]==3) {
+                update_op_cod(id_p->output_box,ex_p->input_box);//Se pasa la instruccion branch en el mismo ciclo que se detecta que fue tomado
+            }
+            else {
+                pass_NOP(1,ex_p->input_box);//Estos NOP si cuentan, son los nop generados por un branch tomado
+            }
         }else{
             pass_NOP(1,ex_p->input_box);//Estos NOP si cuentan, son los nop generados por un branch tomado
         }
@@ -208,7 +208,6 @@ void master_thread::deliver_wb(){
     if(wb_p->clock_ticks == quantum_value && swt_ctxt_flg==0){
         swt_ctxt_flg=1;
         if_p->swt_ctxt_flg=1;
-        cout << "**********HAY UN CAMBIO DE CONTEXTO*********" << endl;
     }
 }
 
@@ -243,7 +242,6 @@ int master_thread::switch_context(int type)
 {
 
     if(threadie_finished){ //Si el hilillo en ejecucion ya termino, guardar el PCB final para imprimirlo despues como estadistica
-        cout << "FINAL DE HILILLO" << endl;
         PCB* final_context = new PCB();
         for(int i=0; i<33; i++){
             final_context->rgstrs[i] = id_p->rgstrs[i];
@@ -259,7 +257,6 @@ int master_thread::switch_context(int type)
     reset_variables();
 
     if(type==0){
-        cout << "FINAL DE QUANTUM" << endl;
         PCB* old_context=new PCB();
         for(int i=0; i<33; i++){
             old_context->rgstrs[i] = id_p->rgstrs[i];
@@ -273,7 +270,6 @@ int master_thread::switch_context(int type)
         context_list.push_back(*old_context);
     }
     if(!context_list.empty()){
-        cout << "SACA NUEVO CONTEXTO" << endl;
         PCB new_context= context_list.front();
         for(int i=0; i<32; i++){
             id_p->rgstrs[i]=new_context.rgstrs[i];
@@ -281,8 +277,6 @@ int master_thread::switch_context(int type)
         }
         id_p->rgstrs[32]=-1;
         if_p->pc=new_context.PC;
-        cout << "SACA NUEVO CONTEXTO" << endl;
-        cout << "\t PC: " << if_p->pc << endl;
         current_threadie_id=new_context.threadie_id;
         current_threadie_execution_cycles = new_context.execution_cycles;
         current_threadie_execution_switches = new_context.execution_switches + 1;
@@ -390,38 +384,6 @@ void master_thread::upld_frst_ctxt()
     context_list.pop_front();
 }
 
-void master_thread::print_mailboxes(int input)
-{
-    cout<<"Hilillo Actual "<<current_threadie_id<<endl;
-    printf("Buzon entrada IF: %d\nEstado ID:%d , PC Branch:%d\n", contador,if_p->input_box[0], if_p->input_box[1]);
-    printf("PC: %d\n", if_p->pc);
-    printf("Buzon salida IF: %d\nInstruccion:%d|%d|%d|%d , PC:%d\n", contador, if_p->output_box[0],if_p->output_box[1],if_p->output_box[2],if_p->output_box[3], if_p->output_box[4]);
-    printf("------------------------------\n");
-    printf("Buzon entrada ID: %d\nInstruccion:%d %d %d %d , Estado EX:%d PC_normal: %d\n", contador, id_p->input_box[0],
-           id_p->input_box[1],id_p->input_box[2],id_p->input_box[3], id_p->input_box[4],id_p->input_box[5]);
-    printf("Buzon salida ID: %d\nInstruccion:%d %d %d %d | Estado ID:%d | A:%d | B:%d | Imm:%d | PcBranch:%d | RL:%d\n",contador, id_p->output_box[0],id_p->output_box[1],id_p->output_box[2],id_p->output_box[3], id_p->output_box[4]
-           , id_p->output_box[5],id_p->output_box[6],id_p->output_box[7],id_p->output_box[8], id_p->output_box[9]);
-    printf("------------------------------\n");
-    printf("Buzon entrada EX: %d\nInstruccion:%d %d %d %d | A:%d | B:%d | Imm:%d | PcBranch:%d | Estado Mem:%d | RL:%d\n", contador,ex_p->input_box[0],ex_p->input_box[1],ex_p->input_box[2],ex_p->input_box[3], ex_p->input_box[4]
-           , ex_p->input_box[5],ex_p->input_box[6],ex_p->input_box[7],ex_p->input_box[8], ex_p->input_box[9]);
-    printf("Buzon salida EX: %d\nInstruccion:%d %d %d %d | PcBranch:%d | ALU:%d | B:%d| Estado EX:%d\n",contador, ex_p->output_box[0],ex_p->output_box[1],ex_p->output_box[2],ex_p->output_box[3], ex_p->output_box[4]
-           , ex_p->output_box[5],ex_p->output_box[6],ex_p->output_box[7]);
-    printf("------------------------------\n");
-    printf("Buzon entrada mem: %d \nInstruccion:%d %d %d %d | ALU:%d | B:%d \n", contador,mem_p->input_box[0],mem_p->input_box[1],mem_p->input_box[2],mem_p->input_box[3], mem_p->input_box[4]
-           , mem_p->input_box[5]);
-    printf("Buzon salida mem: %d\nInstruccion:%d %d %d %d | ALU:%d | LMD:%d| Estado mem:%d\n", contador,mem_p->output_box[0],mem_p->output_box[1],mem_p->output_box[2],mem_p->output_box[3], mem_p->output_box[4]
-           , mem_p->output_box[5],mem_p->output_box[6]);
-    printf("------------------------------\n");
-    printf("Buzon entrada wb: %d\nInstruccion:%d %d %d %d | ALU:%d | LMD:%d \n", contador,wb_p->input_box[0],wb_p->input_box[1],wb_p->input_box[2],wb_p->input_box[3], wb_p->input_box[4]
-           , wb_p->input_box[5]);
-    printf("------------------------------\n");
-
-    if(contador==input){
-        final_bar->Wait();
-    }
-    contador++;
-
-}
 
 void master_thread::free_branch_rgstr()
 {

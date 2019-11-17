@@ -23,7 +23,6 @@ void wb_thread::execute_pahse()
     if(input_box[0]!=1 && input_box[0]!=3 && input_box[0]!=2)
         clock_ticks++;
 
-        cout << "QUANTUM ACTUAL: " << clock_ticks << endl;
     switch (input_box[0]) { //Codigo de operacion
     case 19: //Addi
         addi();
@@ -44,7 +43,6 @@ void wb_thread::execute_pahse()
         lw();
         break;
     case 37: //Sw
-        //cout<<"Aqui"<<endl;
         sw();
         break;
     case 99: //Beq
@@ -67,7 +65,6 @@ void wb_thread::execute_pahse()
         break;
     default: //FIN o NOP
         wb_id_coord->Wait();
-        //cout << "No operation executed in Wb" << endl;
         break;
     }
 }

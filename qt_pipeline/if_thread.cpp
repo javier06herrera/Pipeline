@@ -1,3 +1,5 @@
+
+
 #include "if_thread.h"
 using namespace std;
 if_thread::if_thread(){
@@ -8,9 +10,7 @@ void if_thread::run(){
     final_bar->Wait();
     while (!end_of_program)
     {
-        //printf("Aqui");
         instr_fetch();
-        //cout<<fail_cycle<<endl;
         master_bar->Wait();
         final_bar->Wait();
     }
@@ -53,15 +53,12 @@ int if_thread::instr_fetch(){
 
     int num_blk = addr_to_block(pc);
     int num_word = addr_to_word(pc);
-    //printf("\nBlock: %d,  Word: %d\n", num_blk,num_word);
-    cout<<"Block: "<<num_blk<<" "<<"Word: "<<num_word<<endl;
     if (exists(num_blk)) {
         extract_from_che(num_blk, num_word);
         pc = pc + 4;
         output_box[4]=pc;
         return 1;
     }
-    printf("\nOops, estoy en fallo\n");
     activate_fail();
     return 0;
 

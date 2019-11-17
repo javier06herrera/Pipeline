@@ -9,7 +9,6 @@ void mem_thread::run(){
     final_bar->Wait();
     while (!end_of_program) {
         executePhase();
-        cout<<in_cache_fail_load<<in_cache_fail_store<<endl;
         master_bar->Wait();
         final_bar->Wait();
     }
@@ -37,7 +36,6 @@ bool mem_thread::isBlockInDataCache(int address){
     bool isInCache = false;
     if(block_id_dta_che[block%4] == block){
         isInCache = true;
-        cout<<"No pos si esta"<<endl;
     }
 
     return isInCache;
@@ -131,7 +129,6 @@ void mem_thread::executePhase(){
             passALUOutToWB();
             break;
         default: //FIN o NOP
-            //cout << "No operation executed in MEM" << endl;
             passNOPsToWB(1);
             break;
         }
