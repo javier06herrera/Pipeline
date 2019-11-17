@@ -24,7 +24,6 @@ int if_thread::instr_fetch(){
             resolve_fault(num_blk);
         }
         work_fail();
-        //printf("\n fail cycle %d %d %d\n",fail_cycle, input_box[0], swt_ctxt_flg );
         return 0;
     }
 

@@ -186,6 +186,7 @@ void mem_thread::lw(){
     }
 
     read_mem_rqst++;//Se aumenta la estadistica
+
 }
 
 void mem_thread::sw(){
