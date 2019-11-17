@@ -18,10 +18,11 @@ void master_thread::run()
     {
         master_bar->Wait();
         execute_phase();
-        cout<<wb_p->clock_ticks<<endl;
-        print_mailboxes(7000);
+        //cout<<wb_p->clock_ticks<<endl;
+        //print_mailboxes(7000);
         final_bar->Wait();
     }
+    cout<<"Posicion 8: " << mem_p->data_mem[7] << endl;
 
     print_final_statistics();
 
@@ -393,6 +394,7 @@ void master_thread::upld_frst_ctxt()
 void master_thread::print_mailboxes(int input)
 {
     cout<<"Hilillo Actual "<<current_threadie_id<<endl;
+    cout<<"Posicion 8: " << mem_p->data_mem[7] << endl;
     printf("Buzon entrada IF: %d\nEstado ID:%d , PC Branch:%d\n", contador,if_p->input_box[0], if_p->input_box[1]);
     printf("PC: %d\n", if_p->pc);
     printf("Buzon salida IF: %d\nInstruccion:%d|%d|%d|%d , PC:%d\n", contador, if_p->output_box[0],if_p->output_box[1],if_p->output_box[2],if_p->output_box[3], if_p->output_box[4]);
