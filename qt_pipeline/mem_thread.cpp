@@ -37,6 +37,7 @@ bool mem_thread::isBlockInDataCache(int address){
     bool isInCache = false;
     if(block_id_dta_che[block%4] == block){
         isInCache = true;
+        cout<<"No pos si esta"<<endl;
     }
 
     return isInCache;
@@ -176,7 +177,6 @@ void mem_thread::lw(){
         output_box[6] = 1;
     }
     int word = data_che[getIndexInDataCache(address)];
-    cout<<"Registro "<<data_che[getIndexInDataCache(address)]<<endl;
     output_box[5] = word;
 
     read_mem_rqst++;
@@ -205,7 +205,6 @@ void mem_thread::sw(){
 
 void mem_thread::lr(){
     lw();
-    cout<<"Aqui"<<endl;
     output_box[4] = input_box[4];
 }
 

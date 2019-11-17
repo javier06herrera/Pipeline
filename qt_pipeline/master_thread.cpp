@@ -19,7 +19,7 @@ void master_thread::run()
         master_bar->Wait();
         execute_phase();
         cout<<wb_p->clock_ticks<<endl;
-        print_mailboxes(450);
+        print_mailboxes(2000);
         final_bar->Wait();
     }
 
@@ -107,7 +107,6 @@ void master_thread::execute_phase()
         else
             switch_context(0);
         cout << "***************" << "SALÍ  DEL CAMBIO DE CONTETO" << "************" << endl;
-        sleep(1);
     }
 
 }
@@ -169,8 +168,9 @@ void master_thread::deliver_ex()
     }
     else if(ex_p->branch_result)//Se pregunta si hubo branch tomado
     {
-        update_op_cod(id_p->output_box,ex_p->input_box);//Se pasa la instruccion branch en el mismo ciclo que se detecta que fue tomado
-        overwrite_cycles=0;
+        pass_NOP(1,ex_p->input_box);
+        //update_op_cod(id_p->output_box,ex_p->input_box);//Se pasa la instruccion branch en el mismo ciclo que se detecta que fue tomado
+        overwrite_cycles=1;
         ex_p->branch_result=false;
     }
     else
@@ -223,6 +223,9 @@ void master_thread::pass_NOP(int accountableNOP, int *dest_mail_box)
         dest_mail_box[0]=2;
         for(int i=1; i<4;i++)
             dest_mail_box[i]=0;
+
+        free_branch_rgstr();
+
     }
     else
     {
@@ -342,8 +345,8 @@ void master_thread::print_final_statistics(){
     printf("\n----------------------------------------------------\n");
 
     printf("\nFinal Threadie Contexts\n----------------------------------------------------\n");
-
-    for(size_t i = 0 ; i < final_context_list.size() ; i++){
+    size_t final = final_context_list.size();
+    for(size_t i = 0 ; i < final ; i++){
         PCB current = final_context_list.back();
         final_context_list.pop_back();
         printf("Threadie #%d\n", current.threadie_id);
@@ -382,8 +385,9 @@ void master_thread::upld_frst_ctxt()
 
 void master_thread::print_mailboxes(int input)
 {
+    cout<<"Hilillo Actual "<<current_threadie_id<<endl;
     printf("Buzon entrada IF: %d\nEstado ID:%d , PC Branch:%d\n", contador,if_p->input_box[0], if_p->input_box[1]);
-    printf("PC: %d\n", if_p->pc-4);
+    printf("PC: %d\n", if_p->pc);
     printf("Buzon salida IF: %d\nInstruccion:%d|%d|%d|%d , PC:%d\n", contador, if_p->output_box[0],if_p->output_box[1],if_p->output_box[2],if_p->output_box[3], if_p->output_box[4]);
     printf("------------------------------\n");
     printf("Buzon entrada ID: %d\nInstruccion:%d %d %d %d , Estado EX:%d PC_normal: %d\n", contador, id_p->input_box[0],
@@ -409,6 +413,57 @@ void master_thread::print_mailboxes(int input)
         final_bar->Wait();
     }
     contador++;
+
+}
+
+void master_thread::free_branch_rgstr()
+{
+    switch (id_p->output_box[0]) {
+    case 19: //Addi
+        id_p->rgstrs_state[id_p->output_box[1]]--;
+        break;
+    case 71: //Add
+        id_p->rgstrs_state[id_p->output_box[1]]--;
+        break;
+    case 83: //Sub
+        id_p->rgstrs_state[id_p->output_box[1]]--;
+        break;
+    case 72: //Mul
+        id_p->rgstrs_state[id_p->output_box[1]]--;
+        break;
+    case 56: //Div
+        id_p->rgstrs_state[id_p->output_box[1]]--;
+        break;
+    case 5:  //Lw
+        id_p->rgstrs_state[id_p->output_box[1]]--;
+        break;
+    case 37: //Sw
+        //No tiene que liberar nada
+        break;
+    case 99: //Beq
+        //No tiene que liberar nada
+        break;
+    case 100: //Bne
+        //No tiene que liberar nada
+        break;
+    case 51: //Lr
+        id_p->rgstrs_state[id_p->output_box[1]]--;
+        id_p->rgstrs_state[32]--;
+        break;
+    case 52: //Sc
+        id_p->rgstrs_state[id_p->output_box[2]]--;
+        break;
+    case 111: //Jal
+        id_p->rgstrs_state[id_p->output_box[1]]--;
+        break;
+    case 103: //Jalr
+        id_p->rgstrs_state[id_p->output_box[1]]--;
+        break;
+    default: //FIN o NOP
+        //No tiene que liberar nada
+        break;
+
+    }
 
 }
 

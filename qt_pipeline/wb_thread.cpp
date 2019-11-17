@@ -20,10 +20,10 @@ void wb_thread::run(){
 void wb_thread::execute_pahse()
 {
     cpu_clock++;
-    if(input_box[0]!=1)
+    if(input_box[0]!=1 && input_box[0]!=3 && input_box[0]!=2)
         clock_ticks++;
-        cout << "QUANTUM ACTUAL: " << clock_ticks << endl;
 
+        cout << "QUANTUM ACTUAL: " << clock_ticks << endl;
     switch (input_box[0]) { //Codigo de operacion
     case 19: //Addi
         addi();

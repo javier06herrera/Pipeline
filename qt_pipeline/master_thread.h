@@ -169,6 +169,8 @@ public:
 
     void print_mailboxes(int input);
 
+    void free_branch_rgstr();
+
 
 
 };
