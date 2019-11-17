@@ -175,10 +175,10 @@ void mem_thread::lw(){
         in_cache_fail_load = true;
         read_che_fails++;
         output_box[6] = 1;
+    } else {
+        int word = data_che[getIndexInDataCache(address)];
+        output_box[5] = word;
     }
-    int word = data_che[getIndexInDataCache(address)];
-    output_box[5] = word;
-
     read_mem_rqst++;
 }
 
