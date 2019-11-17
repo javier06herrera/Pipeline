@@ -52,10 +52,10 @@ void master_thread::read_threadies(int *instructionVector)
         int byte1, byte2, byte3, byte4;
         while(infile >> byte1 >> byte2 >> byte3 >> byte4)
         {
-            instructionVector[vecCounter] = byte1;
-            instructionVector[vecCounter+1] = byte2;
-            instructionVector[vecCounter+2] = byte3;
-            instructionVector[vecCounter+3] = byte4;
+            instructionVector[vecCounter-384] = byte1;
+            instructionVector[vecCounter+1-384] = byte2;
+            instructionVector[vecCounter+2-384] = byte3;
+            instructionVector[vecCounter+3-384] = byte4;
             vecCounter+=4;
         }
     }

@@ -17,10 +17,9 @@ void if_thread::run(){
 }
 
 int if_thread::instr_fetch(){
-
     int branch = branch_cmp();
     if (fail_cycle && !branch){
-        if(fail_cycle==47){
+        if(fail_cycle==1){
             int num_blk = addr_to_block(pc);
             resolve_fault(num_blk);
         }
@@ -112,13 +111,12 @@ void if_thread::resolve_fault(int num_blk){
 
     block_id_intr_che[che_blk_indx/16] = num_blk;
 
+
     for (int i = 0; i < 16; i++) {
         intr_che[che_blk_indx] = intr_mem[mem_blk_indx];
-        //printf(" %d ", intr_mem[num_blk_mem]);
         che_blk_indx ++;
         mem_blk_indx ++;
     }
-   // printf("\n");
     mem_request++;
 }
 
@@ -126,11 +124,11 @@ int if_thread::exists(int num_blk){
     if (block_id_intr_che[num_blk%4] == num_blk) {
             return 1;
     }
-    //printf("Bloque no esta aqui");
     return 0;
 }
 
 int if_thread::addr_to_block(int p_c){
+    p_c -= 384;
     return p_c/16;
 }
 
