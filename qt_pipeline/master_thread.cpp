@@ -114,9 +114,9 @@ void master_thread::execute_phase()
 void master_thread::deliver_if()
 {
     //Este primer if corrige desfaces de ciclo en el reconcimiento de fallos en mem
-    if(mem_p->output_box[6])
+    if(mem_p->output_box[6])//Primero se pregunta si mem esta libre
         if_p->input_box[0]=2;
-    else if(id_p->output_box[4]==1)
+    else if(id_p->output_box[4]==1)//Luego se pregunta por el estado de ID
         if_p->input_box[0]=1;
     else
         if_p->input_box[0]= 0; //Se le pasa el estado de ID
@@ -223,7 +223,7 @@ void master_thread::pass_NOP(int accountableNOP, int *dest_mail_box)
         dest_mail_box[0]=2;
         for(int i=1; i<4;i++)
             dest_mail_box[i]=0;
-
+        //En caso de branch se liberan los registros
         free_branch_rgstr();
 
     }
@@ -366,20 +366,22 @@ void master_thread::print_final_statistics(){
 
 void master_thread::upld_frst_ctxt()
 {
+    //Se trae la informacion del primer hilo
     PCB new_context = context_list.front();
     for(int i=0; i<32; i++)
     {
         id_p->rgstrs[i]=new_context.rgstrs[i];
         id_p->rgstrs_state[i]=new_context.rgstrs_state[i];
     }
-
+    //Se pone el RL en -1
     id_p->rgstrs[32]=-1;
+    //Se limpia la basura en el estado del RL
     id_p->rgstrs_state[32]=0;
     if_p->pc=new_context.PC;
     current_threadie_id=new_context.threadie_id;
     current_threadie_execution_cycles = new_context.execution_cycles;
     current_threadie_execution_switches = new_context.execution_switches + 1;
-
+    //Se saca la informacion del primer hilo
     context_list.pop_front();
 }
 

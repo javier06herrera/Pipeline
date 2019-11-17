@@ -5,8 +5,8 @@
 #include "thread"
 
 /**
-\brief La clase id_thread se encarga de decodificar la nueva instrucción,
-y interpretarla según corresponda. También debe preveer conflictos de datos.
+@brief Se encarga de decodificar la nueva instrucción,
+e interpretarla según corresponda. También debe preveer conflictos de datos.
  */
 class id_thread
 {
@@ -28,18 +28,18 @@ public:
      */
     void run ();
     /**
-    \brief instr_decode: Se encarga en que formato de decodificarse la instrucción.
-    \returns Retorna 1 si se realizó normalmente, de lo contrario 0.
+    @brief instr_decode: Se encarga en que formato de decodificarse la instrucción.
+    @returns Retorna 1 si se realizó normalmente, de lo contrario 0.
     */
     int instr_decode();
     /**
-    \brief load_instr: Se encarga de cargar la instrucción desde input_box hacia
+    @brief load_instr: Se encarga de cargar la instrucción desde input_box hacia
     output_box.
-    \returns Retorna 1 si se realizó normalmente, de lo contrario 0.
+    @returns Retorna 1 si se realizó normalmente, de lo contrario 0.
     */
     int load_instr();
     /**
-    \brief addi: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
+    @brief addi: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
     de conflicto de datos y enciende la bandera de conflicto de datos), luego reserva
     el registro destino, y coloca el operando A y el inmediato en su lugar respectivo:
 
@@ -49,7 +49,7 @@ public:
     */
     void addi();
     /**
-    \brief branch: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
+    @brief branch: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
     de conflicto de datos y enciende la bandera de conflicto de datos), luego coloca A,
     B y calcula el PC branch y lo envía.
 
@@ -59,7 +59,7 @@ public:
     */
     void branch();
     /**
-    \brief op_with_inm: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
+    @brief op_with_inm: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
     de conflicto de datos y enciende la bandera de conflicto de datos), reserva el registro
     destino y coloca el contenido de los registros en los operandos A y B:
 
@@ -69,7 +69,7 @@ public:
     */
     void op_arithm();
     /**
-    \brief lw: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
+    @brief lw: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
     de conflicto de datos y enciende la bandera de conflicto de datos), luego
     reserva el registro destino y coloca el contenido del registro señalado en
     el operando A y el inmediato respectivamente:
@@ -80,7 +80,7 @@ public:
     */
     void lw();
     /**
-    \brief sw: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
+    @brief sw: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
     de conflicto de datos y enciende la bandera de conflicto de datos), coloca el
     contenido de los registros en los operandos A, B y el inmediato respectivamente:
 
@@ -90,7 +90,7 @@ public:
     */
     void sw();
     /**
-    \brief lr: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
+    @brief lr: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
     de conflicto de datos y enciende la bandera de conflicto de datos), luego reserva
     el registro destino, y coloca el contenido del registro de input_box en el operando
     A:
@@ -100,7 +100,7 @@ public:
     */
     void lr();
     /**
-    \brief sc: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
+    @brief sc: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
     de conflicto de datos y enciende la bandera de conflicto de datos), coloca desde
     el contenido de los registros los operandos A, B y el RL:
 
@@ -112,7 +112,7 @@ public:
     */
     void sc();
     /**
-    \brief jal: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
+    @brief jal: comprueba que no haya un conflicto de datos (si lo hay envía NOP's
     de conflicto de datos y enciende la bandera de conflicto de datos), calcula el
     PC branch y lo coloca junto con el operando A:
 
@@ -120,7 +120,7 @@ public:
     */
     void jal();
     /**
-    \brief jalr:  comprueba que no haya un conflicto de datos (si lo hay envía NOP's
+    @brief jalr:  comprueba que no haya un conflicto de datos (si lo hay envía NOP's
     de conflicto de datos y enciende la bandera de conflicto de datos), reserva el
     registro destino y callcula el PC branch:
 
@@ -130,20 +130,21 @@ public:
     */
     void jalr();
     /**
-    \brief send_NOP: carga al output_box, una instrucción de NOP de conflicto de
-    datos.
-    */
+     * @brief send_NOP carga al output_box, una instrucción de NOP de conflicto de
+        datos.
+     * @param type Tipo de NOP, 1 2 o 3, (no op normal, no op branch, no op cambio de contexto)
+     */
     void send_NOP(int type);
     /**
-    \brief check_status: Verifica que el registro ingresado no esté siendo utilizado
+    @brief check_status: Verifica que el registro ingresado no esté siendo utilizado
     por una instrucción posterior.
-    \param regist: Registro a comprobar estado.
-    \returns Retorna 1 si está siendo utilizado, de lo contrario 0.
+    @param regist: Registro a comprobar estado.
+    @returns Retorna 1 si está siendo utilizado, de lo contrario 0.
     */
     int check_status(int regist);
     /**
-    \brief use_rgstr: marca el registro como destino de la instrucción.
-    \param regist: Registro a marcar.
+    @brief use_rgstr: marca el registro como destino de la instrucción.
+    @param regist: Registro a marcar.
     */
     void use_rgstr(int regist);
 };
