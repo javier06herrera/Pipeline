@@ -30,7 +30,7 @@ void master_thread::run()
 void master_thread::read_threadies(int *instructionVector)
 {
     int vecCounter = 384;
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 7; i++)
     {
         //Esta seccion se encarga de crear los contextos iniciales
         //*********************************************
@@ -162,11 +162,11 @@ void master_thread::deliver_ex()
             if(id_p->output_box[0]==1 && if_p->output_box[0]==1){
                 id_p->output_box[0]=3;
             }
-            update_op_cod(id_p->output_box,ex_p->input_box);//Se pasa la instruccion branch en el mismo ciclo que se detecta que fue tomado
+            update_op_cod(id_p->output_box,ex_p->input_box);//Se pasa la instruccion branch en el mismo ciclo que se detecta que fue tomado        
         }else{
             pass_NOP(1,ex_p->input_box);//Estos NOP si cuentan, son los nop generados por un branch tomado
         }
-
+        id_p->output_box[4] = 0;
         overwrite_cycles++;
     }
     else if(ex_p->branch_result)//Se pregunta si hubo branch tomado
@@ -175,6 +175,7 @@ void master_thread::deliver_ex()
         //update_op_cod(id_p->output_box,ex_p->input_box);//Se pasa la instruccion branch en el mismo ciclo que se detecta que fue tomado
         overwrite_cycles=1;
         ex_p->branch_result=false;
+        id_p->output_box[4] = 0;
     }
     else
     {
