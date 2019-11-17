@@ -19,7 +19,7 @@ void master_thread::run()
         master_bar->Wait();
         execute_phase();
         cout<<wb_p->clock_ticks<<endl;
-        print_mailboxes(3500);
+        print_mailboxes(10000);
         final_bar->Wait();
     }
 
@@ -159,7 +159,7 @@ void master_thread::deliver_ex()
     if(overwrite_cycles<2)
     {
         if(swt_ctxt_flg == 1){
-            if(id_p->output_box[0]==1){
+            if(id_p->output_box[0]==1 && if_p->output_box[0]==1){
                 id_p->output_box[0]=3;
             }
             update_op_cod(id_p->output_box,ex_p->input_box);//Se pasa la instruccion branch en el mismo ciclo que se detecta que fue tomado
