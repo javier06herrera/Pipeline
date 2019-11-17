@@ -99,7 +99,9 @@ public:
 
     /**
      * @brief passNOPsToWB: Rutina que pasa instrucciones NOPs que no cuentan para el quantum a WB cuando MEM está en fallo de caché
+     * @param type Hay tipo 1 normal, tipo 2 por branch y tipo 3 por cambio de contexto
      */
+
     void passNOPsToWB(int type);
 
     /**
