@@ -18,6 +18,7 @@ void ex_thread::run(){
 }
 
 void ex_thread::executePhase(){
+
     if(input_box[8]){
         output_box[7] = 1;
         return ;
@@ -115,7 +116,7 @@ void ex_thread::sw(){
 
 void ex_thread::sc(){
     int address = input_box[4]+input_box[6];
-    if(address==input_box[9]){//Se compara con el RL
+    if(address==input_box[9]){
         output_box[5] = address;
     }else{
         output_box[5] = -1;
@@ -127,10 +128,10 @@ void ex_thread::sc(){
 void ex_thread::beq(){
     if(input_box[4] == input_box[5]){
         branch_result = true;
-        output_box[4] = input_box[7];//Se pasa el pc branch en caso de tomado
+        output_box[4] = input_box[7];
     }else{
         branch_result = false;
-        output_box[4] = -1; //Se limpia con un -1 el pc branch
+        output_box[4] = -1;
     }
 
 
@@ -140,9 +141,9 @@ void ex_thread::bne(){
     cout<<"BranchNE "<<input_box[4]<<" "<<input_box[5]<<endl;
     if(input_box[4] != input_box[5]){
         branch_result = true;
-        output_box[4] = input_box[7];//Se pasa el pc branch en caso de tomado
+        output_box[4] = input_box[7];
     }else{
-        branch_result = false;//Se limpia con un -1 el pc branch
+        branch_result = false;
         output_box[4] = -1;
     }
 

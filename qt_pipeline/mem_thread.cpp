@@ -56,24 +56,22 @@ void mem_thread::loadBlockToCache(int address){
 }
 
 void mem_thread::executePhase(){
-
-    if(in_cache_fail_load || in_cache_fail_store){//Se pregunta si en este momento existe un fallo de cache
-        if(in_cache_fail_load){//Si es un fallo provocado por load se lleva un contador desde 0 hasta 46 porque el ciclo de deteccion tambien cuenta como parte de los 48
+    if(in_cache_fail_load || in_cache_fail_store){
+        if(in_cache_fail_load){
             if(cache_fail_cycles < 47){
                 cache_fail_cycles++;
                 passNOPsToWB(1);
             }else{
-                //Una vez resuelto se deben actualizar los elementos del buzon de mem
                 loadBlockToCache(input_box[4]);
                 in_cache_fail_load = false;
                 cache_fail_cycles = 0;
-                output_box[6] = 0;//Se debe pasar el estado de mem
-                output_box[4]=input_box[4];//Se debe pasar el ALU
-                output_box[5]=data_che[getIndexInDataCache(input_box[4])];//Se debe pasar el LMD
-                passInstrToWB();//Se pasa la instruccion
+                output_box[6] = 0;
+                output_box[4]=input_box[4];
+                output_box[5]=data_che[getIndexInDataCache(input_box[4])];
+                passInstrToWB();
             }
         }else{
-            if(cache_fail_cycles < 11){//Si es un fallo provocado por load se lleva un contador desde 0 hasta 11 porque el ciclo de deteccion tambien cuenta como parte de los 12
+            if(cache_fail_cycles < 11){
                 cache_fail_cycles++;
                 passNOPsToWB(1);
             }else{
@@ -174,19 +172,14 @@ void mem_thread::passNOPsToWB(int type){
 void mem_thread::lw(){
     int address = input_box[4];
     if(!isBlockInDataCache(address)){
-        in_cache_fail_load = true;//Se activa la bandera de fallo de cache
-        read_che_fails++;//Se aumentan las estadisticas
-        output_box[6] = 1;//Se detiene el estado de mem
-    }
-    else
-    {
-        //Se pasa el LMD si ya el bloque esta en la cache
+        in_cache_fail_load = true;
+        read_che_fails++;
+        output_box[6] = 1;
+    } else {
         int word = data_che[getIndexInDataCache(address)];
         output_box[5] = word;
     }
-
-    read_mem_rqst++;//Se aumenta la estadistica
-
+    read_mem_rqst++;
 }
 
 void mem_thread::sw(){

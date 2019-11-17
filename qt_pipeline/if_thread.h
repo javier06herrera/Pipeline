@@ -88,20 +88,14 @@ public:
     */
     int exists(int num_blk);
     /**
-    \brief addr_to_block:
-    \returns
+    \brief addr_to_block: Toma la dirección dada en el pc y la convierte al número de
+    bloque en memoria de instrucciones.
+    \returns Retorna el número de bloque de memoria de instrucciones.
     */
-    /**
-     * @brief addr_to_block Toma la dirección dada en el pc y la convierte al número de
-     * bloque en memoria de instrucciones.
-     * @param p_c Pc de la instruccion actual
-     * @return Retorna el número de bloque de memoria de instrucciones.
-     */
     int addr_to_block(int p_c);
     /**
     \brief addr_to_word: Toma la dirección dada en el pc y la convierte al número de
     palabra en el bloque de instrucciones
-    \@param p_c Pc de la instruccion actual
     \returns Retorna el número de palabra en el bloque de instrucciones.
     */
     int addr_to_word(int p_c);

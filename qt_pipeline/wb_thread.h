@@ -4,9 +4,6 @@
 #include <iostream>
 #include "barrier.h"
 
-/**
- * @brief Se encarga de actualizar a los registros y los estados de los registros
- */
 class wb_thread
 {
 public:

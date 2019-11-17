@@ -10,6 +10,7 @@ void wb_thread::run(){
     final_bar->Wait();
     while (!end_of_program) {
         execute_pahse();
+
         master_bar->Wait();
         final_bar->Wait();
     }
@@ -143,14 +144,12 @@ void wb_thread::bne(){
 }
 
 void wb_thread::jal(){
-    //Se actualizan y liberan los registros
     rgstrs[input_box[1]]=input_box[4];
     rgstrs_state[input_box[1]]--;
     wb_id_coord->Wait();
 }
 
 void wb_thread::jalr(){
-    //Se actualizan y liberan los registros
     rgstrs[input_box[1]]=input_box[4];
     rgstrs_state[input_box[1]]--;
     wb_id_coord->Wait();

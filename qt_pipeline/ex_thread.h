@@ -3,9 +3,7 @@
 #include "thread"
 #include "barrier.h"
 #include <iostream>
-/**
- * @brief Se encarga de ejecutar las operaciones aritméticas del pipeline
- */
+
 class ex_thread
 {
 public:

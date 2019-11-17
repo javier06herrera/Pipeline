@@ -31,7 +31,8 @@ class master_thread
 {
 public:
 
-    int contador;///<Contador utilizado en el metodo de imprimir buzones
+    int contador;
+
     int current_threadie_id = -1; ///<Identificador del hilillo actualmente en ejecucion
     int current_threadie_execution_cycles; ///<Cantidad de ciclos que lleva en ejecucion del hilillo actualmente en ejecucion
     int current_threadie_execution_switches; ///<Cantidad de cambios de contexto a ejecucion del hilillo actualmente en ejecucion
@@ -166,14 +167,8 @@ public:
      */
     void upld_frst_ctxt();
 
-    /**
-     * @brief print_mailboxes Metodo utilizado para debuggear el pipeline
-     * @param input Numero de ciclos que se desean imprimir, luego se detiene con una barrera
-     */
     void print_mailboxes(int input);
-    /**
-     * @brief free_branch_rgstr Este metodo libera los registros reservados por las instrucciones que van a ser eliminadas por motivo de un branch
-     */
+
     void free_branch_rgstr();
 
 

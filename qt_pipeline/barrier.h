@@ -5,9 +5,6 @@
 #include <condition_variable>
 
 using namespace std;
-/**
- * @brief The Barrier class es una implementación tomada de stack overflow
- */
 class Barrier
 {
 public:
