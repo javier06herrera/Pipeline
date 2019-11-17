@@ -385,6 +385,7 @@ void master_thread::upld_frst_ctxt()
 
 void master_thread::print_mailboxes(int input)
 {
+    cout<<"Instr "<<if_p->intr_che[688-384]<<endl;
     cout<<"Hilillo Actual "<<current_threadie_id<<endl;
     printf("Buzon entrada IF: %d\nEstado ID:%d , PC Branch:%d\n", contador,if_p->input_box[0], if_p->input_box[1]);
     printf("PC: %d\n", if_p->pc);
