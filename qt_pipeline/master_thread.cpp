@@ -19,7 +19,7 @@ void master_thread::run()
         master_bar->Wait();
         execute_phase();
         cout<<wb_p->clock_ticks<<endl;
-        print_mailboxes(10000);
+        print_mailboxes(7000);
         final_bar->Wait();
     }
 
@@ -30,7 +30,7 @@ void master_thread::run()
 void master_thread::read_threadies(int *instructionVector)
 {
     int vecCounter = 384;
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 4; i++)
     {
         //Esta seccion se encarga de crear los contextos iniciales
         //*********************************************
@@ -311,14 +311,16 @@ void master_thread::reset_variables()
 
 void master_thread::print_final_statistics(){
     printf("\nFinal State Shared Data Memory\n----------------------------------------------------\n");
-    printf("Block|\tWord 0|\tWord 1|\tWord 2|\tWord 3\n");
+
     for (int i = 0 ; i < 96 ; i+=4){ //Estado final de la memoria compartida de datos
         int block = i/4;
+        int pos = i*4;
+        printf("Block %d|\t[%d]\t[%d]\t[%d]\t[%d]\n",block,pos,pos+4,pos+8,pos+12);
         int word0 = mem_p->data_mem[i];
         int word1 = mem_p->data_mem[i+1];
         int word2 = mem_p->data_mem[i+2];
         int word3 = mem_p->data_mem[i+3];
-        printf("%d\t%d\t%d\t%d\t%d\n" , block, word0, word1, word2, word3 );
+        printf("\t\t%d\t%d\t%d\t%d\n\n", word0, word1, word2, word3 );
     }
     printf("\n----------------------------------------------------\n");
 
@@ -360,10 +362,11 @@ void master_thread::print_final_statistics(){
             }else{
                 printf("X%d: %d | X%d: %d | X%d: %d\n", j, current.rgstrs[j] , j+1 , current.rgstrs[j+1], j+2 , current.rgstrs[j+2]);
             }
+            printf("-----------------------------\n");
         }
         printf("Execution Cycles: %d\n", current.execution_cycles);
         printf("Execution Switches: %d\n", current.execution_switches);
-        printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+        printf("########################################\n");
     }
 }
 
