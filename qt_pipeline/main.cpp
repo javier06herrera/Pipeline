@@ -105,9 +105,11 @@ void init_structures(if_thread* if_p, id_thread* id_p, ex_thread* ex_p, mem_thre
     master_p->wb_p=wb_p;
     master_p->master_bar=master_bar;
     master_p->final_bar=final_bar;
-    //string user_quantum;
-    //cin>>master_p->quantum_value;
-    master_p->quantum_value=1000;
+    string user_quantum;
+    cout << "Ingrese el valor del quantum: ";
+    cin>>master_p->quantum_value;
+    cout << endl;
+    //master_p->quantum_value=20;
 
 }
 
@@ -115,7 +117,7 @@ void init_structures(if_thread* if_p, id_thread* id_p, ex_thread* ex_p, mem_thre
 int main()
 {
 
-
+    cout << "Bienvenidos al Pipeline del Equipo Alfa Buena Maravilla Onda Dinamita Escuadron Lobo" << endl;
     if_thread* if_p=new if_thread();
     id_thread* id_p=new id_thread();
     ex_thread* ex_p=new ex_thread();
@@ -170,10 +172,6 @@ int main()
     delete mem_p;
     delete wb_p;
 
-    //Tentativamente hcer delete de la estructura de contextos
-
-    int a;
-    cin >> a;
     return 0;
 }
 

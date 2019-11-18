@@ -18,7 +18,10 @@ void master_thread::run()
     {
         master_bar->Wait();
         execute_phase();
-        //print_mailboxes(7000);
+        cout << "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" << endl;
+        cout << "Reloj actual del procesador: " <<wb_p->cpu_clock << endl;
+        cout << "Hilillo actual en ejecucion: " << current_threadie_id << endl;
+        cout << "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" << endl;
         final_bar->Wait();
     }
 
